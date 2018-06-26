@@ -5,11 +5,17 @@
  *       Notes:
  */
 
-#include "header/monitor/monitor.h"
+#include "monitor/monitor.h"
+#include <iostream>
 
 bool Monitor::setActuator(Actuator act, bool set)
 {
+	//TODO - function signature may need to change
 	return false;
 }
 
+int main()
+{
+	std::cout << "test" << std::endl;
+}
 

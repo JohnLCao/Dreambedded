@@ -8,8 +8,8 @@
 #ifndef __MONITOR_H__   
 #define __MONITOR_H__
 
-#include "header/sensors/sensor.h"
-#include "header/actuators/actuator.h"
+#include "sensors/sensor.h"
+#include "actuators/actuator.h"
 
 class Monitor 
 {
