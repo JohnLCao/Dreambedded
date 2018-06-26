@@ -13,6 +13,6 @@ class Actuator
 	private: 
 	public:
 	//TODO: complete interface	
-}
+};
 
 #endif

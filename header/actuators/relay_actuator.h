@@ -15,6 +15,6 @@ class RelayActuator : public Actuator
 	private: 
 	public:
 	//TODO: complete interface	
-}
+};
 
 #endif

@@ -15,6 +15,6 @@ class ACCurrentSensor : public Sensor
 	private: 
 	public:
 	//TODO: complete interface	
-}
+};
 
 #endif

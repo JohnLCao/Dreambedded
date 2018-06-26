@@ -17,6 +17,6 @@ class Monitor
 	public:
 		bool setActuator(Actuator act, bool set);	
 	//TODO: complete interface	
-}
+};
 
 #endif
