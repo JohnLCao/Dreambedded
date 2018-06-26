@@ -17,5 +17,6 @@ bool Monitor::setActuator(Actuator act, bool set)
 int main()
 {
 	std::cout << "test" << std::endl;
+	return 0;
 }
 
