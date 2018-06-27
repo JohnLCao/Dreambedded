@@ -30,3 +30,10 @@
 *.exe
 *.out
 *.app
+/build/*
+/.metadata/
+
+#IDE and project settings
+.project
+.cproject
+.settings/*
