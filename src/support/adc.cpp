@@ -13,7 +13,7 @@ virtual int ADC::readValue() {
   ifstream fs(this.path);
   if (fs.is_open())
   {
-      cout << "Reading from a file:" << endl;
+      // cout << "Reading from a file:" << endl;
       fs >> readValue;
   } else {
     cout << "ERROR: cannot open file " << this.path << endl;

@@ -12,7 +12,7 @@ class Sensor
 {
 	private: 
 	public:
-	//TODO: complete interface	
+		virtual int getData() = 0;
 };
 
 #endif
