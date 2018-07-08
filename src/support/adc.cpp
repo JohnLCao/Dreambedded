@@ -1,23 +1,31 @@
-#include "adc.h"
-#include <string>
-#include <iostream>
-#include <fstream>
+#include "support/adc.h"
 
-ADC::ADC(int AINNumber) {
-  number = number;
-  path   = "/sys/bus/iio/devices/iio:device0/in_voltage" + to_string(AINNumber) + "_raw";
+#define ADC_PREFIX "/sys/bus/iio/devices/iio:device0/in_voltage"
+#define ADC_SUFFIX "_raw"
+
+//constructors and destructors
+ADC::ADC(){}
+ADC::~ADC(){}
+
+ADC::ADC(int AINNumber)
+{
+  number = AINNumber;
+  path   = ADC_PREFIX + to_string(AINNumber) + ADC_SUFFIX;
 }
 
-virtual int ADC::readValue() {
+//
+int ADC::readValue()
+{
   int readValue;
-  ifstream fs(this.path);
+  ifstream fs(this->path);
   if (fs.is_open())
   {
       // cout << "Reading from a file:" << endl;
       fs >> readValue;
   } else {
-    cout << "ERROR: cannot open file " << this.path << endl;
+    cout << "ERROR: cannot open file " << this->path << endl;
   }
-  myfile.close();
+  fs.close();
   return readValue;
 }
+

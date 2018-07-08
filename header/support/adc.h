@@ -1,7 +1,6 @@
 #include <string>
+#include <iostream>
 #include <fstream>
-
-// #define ADC_PATH "/sys/devices/platform/bone_capemgr/slots"
 
 using namespace std;
 
@@ -11,7 +10,8 @@ private:
   string path;
 
 public:
+  ADC();
+  ~ADC();
   ADC (int AINNumber);
-  virtual int readValue();
-  virtual ~ADC ();
+  int readValue();
 };
