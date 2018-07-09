@@ -6,12 +6,12 @@
 using namespace std;
 
 class ADC {
-private:
-  int number;
-  string path;
+    private:
+        int number;
+        string path;
 
-public:
-  ADC (int AINNumber);
-  virtual int readValue();
-  virtual ~ADC ();
+    public:
+        ADC (int AINNumber);
+        virtual int readValue();
+        virtual ~ADC ();
 };
