@@ -32,6 +32,9 @@
 *.app
 /build/*
 /.metadata/
+dreambed
+
+/server/node_modules
 
 #IDE and project settings
 .project
