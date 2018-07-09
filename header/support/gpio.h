@@ -1,7 +1,7 @@
+#pragma once
+
 #include <string>
 #include <fstream>
-
-// #define ADC_PATH "/sys/devices/platform/bone_capemgr/slots"
 
 using namespace std;
 
@@ -9,11 +9,13 @@ class GPIO {
 private:
     int number;
     string basePath, directionPath, valuePath;
-    static const string EXPORT_FILE = "/sys/class/gpio/export";
+    string EXPORT_FILE = "/sys/class/gpio/export";
+		void writeToFile(string fileName, string value);
+		void writeToFile(string fileName, int value);
+		int readFromFile(string fileName);
 
 public:
     GPIO (int gpioNumber);
-    virtual ~ADC ();
     virtual int readValue();
-    virtual void GPIO::writeValue(string newValue);
+    virtual void writeValue(int newValue);
 };

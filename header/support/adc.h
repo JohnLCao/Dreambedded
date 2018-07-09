@@ -10,7 +10,7 @@ class ADC {
     private:
         int number;
         string path;
-
+  
 public:
   ADC();
   ~ADC();

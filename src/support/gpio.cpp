@@ -4,58 +4,54 @@
 #include <fstream>
 
 GPIO::GPIO(int gpioNumber) {
-  number        = number;
+  number        = gpioNumber;
   basePath      = "/sys/class/gpio/gpio" + to_string(gpioNumber);
   directionPath = basePath + "/direction";
   valuePath     = basePath + "/value";
 
   // Export the GPIO pin
-  ofstream fs(GPIO::EXPORT_FILE);
-  if (fs.is_open()) {
-      fs << to_string(gpioNumber);
-  } else {
-    cout << "ERROR: cannot open file " << GPIO::EXPORT_FILE << endl;
-  }
+  writeToFile(EXPORT_FILE, gpioNumber);
+}
+
+int GPIO::readValue() {
+    // Set direction to "in"
+    writeToFile(this->directionPath, "in");
+    return readFromFile(this->valuePath);
+}
+
+void GPIO::writeValue(int newValue) {
+    // Set direction to "out"
+    writeToFile(this->directionPath, "out");
+    writeToFile(this->valuePath, newValue);
+}
+
+// private functions
+// TODO: decide what to return if read/write to files fails
+void GPIO::writeToFile(string fileName, string value) {
+  ofstream fs(fileName);
+  if (fs.is_open())
+      fs << value;
+  else
+    cout << "ERROR: cannot open file " << fileName << endl;
   fs.close();
 }
 
-virtual void GPIO::setDirection(string value) {
-    ofstream fs(this.directionPath);
-    if (fs.is_open())
-    {
+void GPIO::writeToFile(string fileName, int value) {
+  ofstream fs(fileName);
+  if (fs.is_open())
       fs << value;
-    } else {
-        cout << "ERROR: cannot open file " << this.valuePath << endl;
-    }
-    fs.close();
+  else
+    cout << "ERROR: cannot open file " << fileName << endl;
+  fs.close();
 }
 
-virtual int GPIO::readValue() {
-    // Set direction to "in"
-    setDirection("in");
-
-    int readValue;
-    ifstream fs(this.valuePath);
-    if (fs.is_open())
-    {
+int GPIO::readFromFile(string fileName) {
+  int readValue = 0;
+  ifstream fs(fileName);
+  if (fs.is_open())
       fs >> readValue;
-    } else {
-        cout << "ERROR: cannot open file " << this.valuePath << endl;
-    }
-    fs.close();
-    return readValue;
-}
-
-virtual void GPIO::writeValue(string newValue) {
-    // Set direction to "out"
-    setDirection("out");
-
-    ofstream fs(this.valuePath);
-    if (fs.is_open())
-    {
-      fs << newValue;
-    } else {
-        cout << "ERROR: cannot open file " << this.valuePath << endl;
-    }
-    fs.close();
+  else
+    cout << "ERROR: cannot open file " << fileName << endl;
+  fs.close();
+  return readValue;
 }

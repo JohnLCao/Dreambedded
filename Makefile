@@ -1,7 +1,7 @@
 # Consult https://hiltmon.com/blog/2013/07/03/a-simple-c-plus-plus-project-structure/
 # for effective Makefile with this project structure
 
-# may need to install g++ for cross compilation with: 
+# may need to install g++ for cross compilation with:
 # sudo apt-get install g++-arm-linux-gnueabihf
 
 PUBDIR	 = $(HOME)/cmpt433/public/myApps
@@ -25,7 +25,6 @@ MONITOR  = $(BUILD)/monitor
 MAKE_BUILD_FOLDER = mkdir -p $(BUILD)
 BUILD_PREFIX = $(CCPREFIX)$(CC) $(INC) $(CFLAGS)$(LIB) -c $(SRC)/
 BUILD_SUFFIX = /$@.$(SRCTYPE) -o $(BUILD)/$@ 
-
 BUILD_TARGET = $(BUILD_PREFIX)$@$(BUILD_SUFFIX)
 BUILD_SENSOR = $(BUILD_PREFIX)sensors$(BUILD_SUFFIX)
 BUILD_SUPPORT = $(BUILD_PREFIX)support$(BUILD_SUFFIX)
@@ -56,7 +55,6 @@ ir_distance_sensor:
 #---------
 actuator: 
 
-
 #-------
 #SUPPORT
 #-------
@@ -71,6 +69,3 @@ gpio:
 ######################################
 clean: #remove executables
 	rm -r $(BUILD)
-	
-
-	
