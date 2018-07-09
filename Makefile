@@ -3,11 +3,13 @@
 
 # may need to install g++ for cross compilation with: 
 # sudo apt-get install g++-arm-linux-gnueabihf
+
+# may need to try the following commands
 # sudo apt-get install libstdc++6
 
 PUBDIR	 = $(HOME)/cmpt433/public/myApps
 
-CCPREFIX = arm-linux-gnueabihf-
+CCPREFIX = #arm-linux-gnueabihf-
 CC		 = g++
 SRC		 = src
 SRCTYPE	 = cpp
@@ -16,6 +18,7 @@ BUILD	 = build
 INC		 = -I $(HEADER)
 CFLAGS	 = -g -Wall #adjust as needed
 LIB		 = #-pthread
+
 SLOTS    = /sys/devices/platform/bone_capemgr/slots
 BBC		 = BB-ADC
 SENSORS	 = $(BUILD)/ir_distance_sensor #audio_sensor.o power_sensor.o 
