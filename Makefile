@@ -1,7 +1,7 @@
 # Consult https://hiltmon.com/blog/2013/07/03/a-simple-c-plus-plus-project-structure/
 # for effective Makefile with this project structure
 
-# may need to install g++ for cross compilation with: 
+# may need to install g++ for cross compilation with:
 # sudo apt-get install g++-arm-linux-gnueabihf
 
 CCPREFIX = #arm-linux-gnueabihf-
@@ -16,14 +16,13 @@ LIB		 = #-pthread
 
 all: monitor sensor actuator
 
-monitor: 
+monitor:
 	mkdir -p $(BUILD)
 	$(CCPREFIX)$(CC) $(INC) $(CFLAGS) $(LIB) $(SRC)/$@/$@.$(SRCTYPE) -o $(BUILD)/$@
 
-sensor: 
+sensor:
 
-actuator: 
+actuator:
 
 clean: #remove executables
 	rm -r $(BUILD)
-	
