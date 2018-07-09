@@ -1,0 +1,15 @@
+.mdl-layout.mdl-js-layout.mdl-layout--fixed-header
+  %header.mdl-layout__header
+    .mdl-layout__header-row
+      %span.mdl-layout-title Dreambedded
+      .mdl-layout-spacer
+      %nav.mdl-navigation.mdl-layout--large-screen-only
+        %a.mdl-navigation__link(href="") Register Device
+        %a.mdl-navigation__link(href="") Settings
+  .mdl-layout__drawer
+    %span.mdl-layout-title Devices
+    %nav.mdl-navigation
+      %a.mdl-navigation__link(href="") Light Switch
+      %a.mdl-navigation__link(href="") Power Plug 1
+  %main.mdl-layout__content
+    .page-content
