@@ -7,9 +7,9 @@
 using namespace std;
 
 class ADC {
-private:
-  int number;
-  string path;
+    private:
+        int number;
+        string path;
 
 public:
   ADC();

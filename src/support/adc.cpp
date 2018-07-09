@@ -24,7 +24,6 @@ ADC::ADC(int AINNumber)
 	path   = ADC_PREFIX + (char)('0' + number) + ADC_SUFFIX;
 }
 
-//
 int ADC::readValue()
 {
 	int readValue;
