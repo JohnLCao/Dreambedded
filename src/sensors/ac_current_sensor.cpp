@@ -6,6 +6,3 @@
  */
 
 #include "sensors/ac_current_sensor.h"
-
-
-

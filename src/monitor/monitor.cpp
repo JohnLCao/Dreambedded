@@ -6,19 +6,17 @@
  */
 
 #include "monitor/monitor.h"
-#include <iostream>
 
-bool Monitor::setActuator(Actuator act, bool set)
-{
-	//TODO - function signature may need to change
-	ADC IRSensor = ADC(1);
-	cout << IRSensor.readValue() << endl;
-	return false;
-}
+using namespace std;
+
+//XXX add #define _GLIBCXX_USE_CXX11_ABI 0
+// 		  before including any C++ libraries.
 
 int main()
 {
-	Monitor::setActuator();
-	std::cout << "test" << std::endl;
+	IRDistanceSensor irSensor = IRDistanceSensor();
+	while (true){
+		cout << "IR distance value: " << irSensor.getData() << endl;
+	}
 	return 0;
 }

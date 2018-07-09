@@ -14,8 +14,7 @@
 class IRDistanceSensor : public Sensor {
 public:
 	IRDistanceSensor();
-
-
+	int getData();
 private:
 	int data;
 	ADC irADC;

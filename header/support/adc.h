@@ -1,7 +1,8 @@
-#include <string>
-#include <fstream>
+#define _GLIBCXX_USE_CXX11_ABI 0
 
-// #define ADC_PATH "/sys/devices/platform/bone_capemgr/slots"
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
 
 using namespace std;
 
@@ -10,8 +11,9 @@ class ADC {
         int number;
         string path;
 
-    public:
-        ADC (int AINNumber);
-        virtual int readValue();
-        virtual ~ADC ();
+public:
+  ADC();
+  ~ADC();
+  ADC (int AINNumber);
+  int readValue();
 };

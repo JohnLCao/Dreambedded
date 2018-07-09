@@ -5,17 +5,20 @@
  *      Author: tudatn
  */
 
-#include "ir_distance_sensor.h"
+#include "sensors/ir_distance_sensor.h"
 
 #define IR_AIN 1
 
-IRDistanceSensor::IRDistanceSensor() {
-	// TODO : import ADC file
-	irADC = ADC(IR_AIN);
+IRDistanceSensor::IRDistanceSensor()
+{
+	//irADC = ADC(IR_AIN);
+	irADC = ADC(0); // test with potentiometer
+	data = irADC.readValue();
 }
 
-
-
-
-
+int IRDistanceSensor::getData()
+{
+	data = irADC.readValue();
+	return data;
+}
 
