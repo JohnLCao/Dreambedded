@@ -6,9 +6,11 @@
  */
 
 #include "monitor/monitor.h"
-#include <iostream>
 
 using namespace std;
+
+//XXX add #define _GLIBCXX_USE_CXX11_ABI 0
+// 		  before including any C++ libraries.
 
 int main()
 {
