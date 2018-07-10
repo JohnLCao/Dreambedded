@@ -20,7 +20,7 @@ LIB		 = #-pthread
 SLOTS    = /sys/devices/platform/bone_capemgr/slots
 BBC		 = BB-ADC
 SENSORS	 = $(BUILD)/ir_distance_sensor #audio_sensor.o power_sensor.o 
-SUPPORT	 = $(BUILD)/adc #$(BUILD)/gpio
+SUPPORT	 = $(BUILD)/adc $(BUILD)/gpio  #$(BUILD)/network
 MONITOR  = $(BUILD)/monitor
 
 MAKE_BUILD_FOLDER = mkdir -p $(BUILD)
@@ -66,6 +66,8 @@ adc:
 	$(BUILD_SUPPORT)
 	
 gpio: 
+	$(MAKE_BUILD_FOLDER)
+	$(BUILD_SUPPORT)
 
 ######################################
 clean: #remove executables
