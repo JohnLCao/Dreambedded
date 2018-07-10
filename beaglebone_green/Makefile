@@ -4,10 +4,11 @@
 # may need to install g++ for cross compilation with:
 # sudo apt-get install g++-arm-linux-gnueabihf
 
+CC_VER	 = #-5 #change this as needed
 PUBDIR	 = $(HOME)/cmpt433/public/myApps
 
 CCPREFIX = arm-linux-gnueabihf-
-CC		 = g++
+CC		 = g++$(CC_VER)
 SRC		 = src
 SRCTYPE	 = cpp
 HEADER	 = header
