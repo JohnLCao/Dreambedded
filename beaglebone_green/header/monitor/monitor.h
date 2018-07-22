@@ -14,6 +14,7 @@
 #include "actuators/actuator.h"
 #include "sensors/ir_distance_sensor.h"
 #include <iostream>
+#include <unistd.h>
 
 class Monitor 
 {

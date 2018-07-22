@@ -20,7 +20,7 @@ LIB		 = #-pthread
 SLOTS    = /sys/devices/platform/bone_capemgr/slots
 BBC		 = BB-ADC
 SENSORS	 = $(BUILD)/ir_distance_sensor #audio_sensor.o power_sensor.o 
-SUPPORT	 = $(BUILD)/adc $(BUILD)/gpio  #$(BUILD)/network
+SUPPORT	 = $(BUILD)/adc $(BUILD)/gpio $(BUILD)/network
 MONITOR  = $(BUILD)/monitor
 
 MAKE_BUILD_FOLDER = mkdir -p $(BUILD)
@@ -30,7 +30,7 @@ BUILD_TARGET = $(BUILD_PREFIX)$@$(BUILD_SUFFIX)
 BUILD_SENSOR = $(BUILD_PREFIX)sensors$(BUILD_SUFFIX)
 BUILD_SUPPORT = $(BUILD_PREFIX)support$(BUILD_SUFFIX)
 
-all: monitor sensor actuator support
+all: support sensor actuator monitor 
 	#echo $(BBC) > $(SLOTS)
 	$(CCPREFIX)$(CC) -o dreambed $(SENSORS) $(SUPPORT) $(MONITOR) libstdc++.so.6
 	cp dreambed $(PUBDIR)
@@ -59,13 +59,17 @@ actuator:
 #-------
 #SUPPORT
 #-------
-support: adc gpio
+support: adc gpio network
 
 adc: 
 	$(MAKE_BUILD_FOLDER)
 	$(BUILD_SUPPORT)
 	
 gpio: 
+	$(MAKE_BUILD_FOLDER)
+	$(BUILD_SUPPORT)
+	
+network: 
 	$(MAKE_BUILD_FOLDER)
 	$(BUILD_SUPPORT)
 
