@@ -12,8 +12,9 @@ CC		 = g++$(CC_VER)
 SRC		 = src
 SRCTYPE	 = cpp
 HEADER	 = header
+COMMON	 = ../common
 BUILD	 = build
-INC		 = -I $(HEADER)
+INC		 = -I $(HEADER) -I $(COMMON)
 CFLAGS	 = -g -Wall -std=c++98 #adjust as needed
 
 LIB		 = #-pthread
@@ -28,7 +29,10 @@ BUILD_PREFIX = $(CCPREFIX)$(CC) $(INC) $(CFLAGS)$(LIB) -c $(SRC)/
 BUILD_SUFFIX = /$@.$(SRCTYPE) -o $(BUILD)/$@ 
 BUILD_TARGET = $(BUILD_PREFIX)$@$(BUILD_SUFFIX)
 BUILD_SENSOR = $(BUILD_PREFIX)sensors$(BUILD_SUFFIX)
-BUILD_SUPPORT = $(BUILD_PREFIX)support$(BUILD_SUFFIX)
+
+COMMON_PREFIX = $(CCPREFIX)$(CC) $(INC) $(CFLAGS)$(LIB) -c $(COMMON)/$(SRC)/
+#COMMON_SUFFIX = /$@.$(SRCTYPE) -o $(BUILD)/$@ ###may change later
+BUILD_SUPPORT = $(COMMON_PREFIX)$(BUILD_SUFFIX)
 
 all: support sensor actuator monitor 
 	#echo $(BBC) > $(SLOTS)
