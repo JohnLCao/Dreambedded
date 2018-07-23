@@ -1,19 +1,21 @@
 #include <iostream>
 
 #include "actuators/relay.h"
-#include "networking/udp_server.h"
+#include "support/network/network.h"
+#include "support/network/udp_server.h"
 
 using namespace std;
 
-int main(int argc, char const *argv[]) {
-  UdpServer server(22110);
+void *callbackFn(UdpServer *server) {
+  int readBytes;
+  string message = server->receive(&readBytes);
+  cout << message << endl;
+  return NULL;
+}
 
-  while (1) {
-    int bytesRead;
-    string reply = server.receive(&bytesRead);
-    cout << reply << endl;
-    server.send(reply);
-  }
+int main(int argc, char const *argv[]) {
+  Network network(callbackFn);
+  network.wait();
 
   return 0;
 }

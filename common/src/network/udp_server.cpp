@@ -1,10 +1,12 @@
-#include "networking/udp_server.h"
+#include "support/network/udp_server.h"
 
 #include <unistd.h> // for close
 #include <netdb.h>
 #include <string>
 
 #define MAX_MSG_SIZE 64000
+
+UdpServer::UdpServer(){};
 
 UdpServer::UdpServer(int _port): port(_port) {
   addressInfo.sin_family = AF_INET;

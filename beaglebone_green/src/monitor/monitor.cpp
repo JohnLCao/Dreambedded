@@ -8,7 +8,7 @@
 #include "monitor/monitor.h"
 #include <string>
 #include <iostream>
-#include "support/network.h"
+#include "support/network/network.h"
 
 #define POLL_PERIOD 100000
 
@@ -20,6 +20,7 @@ using namespace std;
 int main()
 {
 	IRDistanceSensor irSensor = IRDistanceSensor();
+  cout << "MAIN <------" << endl;
 //
 //	//TODO: this should be moved to the main() / binary for the irSensor.
 	irSensor.serveData();

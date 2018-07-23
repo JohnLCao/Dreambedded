@@ -10,7 +10,7 @@
 
 #include "sensor.h"
 #include "support/adc.h"
-#include "support/network.h"
+#include "support/network/network.h"
 
 class IRDistanceSensor : public Sensor {
 public:

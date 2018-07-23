@@ -1,23 +1,26 @@
-PUBDIR	 = $(HOME)/cmpt433/public/myApps
+PUBDIR	 = $(HOME)/cmpt433/public/myApps/rpi
 
 CCPREFIX = arm-linux-gnueabihf-
 CC		 = g++
 SRC		 = src
 SRCTYPE	 = cpp
+COMMON	 = ../common
 HEADER	 = header
 BUILD	 = build
-INC		 = -I $(HEADER)
+INC		 = -I $(HEADER) -I $(COMMON)
 CFLAGS	 = -g -Wall -std=c++17 -Werror
 
 MAKE_BUILD_FOLDER = mkdir -p $(BUILD)
 BUILD_PREFIX = $(CCPREFIX)$(CC) $(INC) $(CFLAGS)$(LIB) -c $(SRC)/
 BUILD_SUFFIX = /$@.$(SRCTYPE) -o $(BUILD)/$@
 
-MAIN = $(BUILD)/main
-APP = $(BUILD)/udp_server $(BUILD)/relay $(MAIN)
+COMMON_PREFIX = $(CCPREFIX)$(CC) $(INC) $(CFLAGS)$(LIB) -c $(COMMON)/$(SRC)/
 
-all: main udp_server relay
-	$(CCPREFIX)$(CC) -o dreambed $(APP)
+MAIN = $(BUILD)/main
+APP = $(BUILD)/udp_server $(BUILD)/relay $(BUILD)/network $(MAIN)
+
+all: main udp_server relay network
+	$(CCPREFIX)$(CC) -o dreambed $(APP) -lpthread
 	cp dreambed $(PUBDIR)
 
 relay:
@@ -26,7 +29,11 @@ relay:
 
 udp_server:
 	$(MAKE_BUILD_FOLDER)
-	$(BUILD_PREFIX)networking$(BUILD_SUFFIX)
+	$(COMMON_PREFIX)network$(BUILD_SUFFIX)
+
+network:
+	$(MAKE_BUILD_FOLDER)
+	$(COMMON_PREFIX)network$(BUILD_SUFFIX)
 
 main:
 	$(MAKE_BUILD_FOLDER)

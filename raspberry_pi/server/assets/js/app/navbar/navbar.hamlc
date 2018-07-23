@@ -1,0 +1,13 @@
+.mdl-layout.mdl-js-layout.mdl-layout--fixed-header(material-upgrade="true")
+  %header.mdl-layout__header
+    .mdl-layout__header-row
+      %span.mdl-layout-title Dreambedded
+      .mdl-layout-spacer
+      %nav.mdl-navigation.mdl-layout--large-screen-only
+        %a.mdl-navigation__link(href="javascript:void(0)") Register Device
+        %a.mdl-navigation__link(href="javascript:void(0)") Settings
+  .mdl-layout__drawer
+    %span.mdl-layout-title Devices
+    %nav.mdl-navigation
+      %a.mdl-navigation__link(href="javascript:void(0)" ui-sref="devices.show({device_name: 'light_bulb'})") Light Switch
+      %a.mdl-navigation__link(href="javascript:void(0)" ui-sref="devices.show({device_name: 'power_plug'})") Power Plug 1
