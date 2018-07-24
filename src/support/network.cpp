@@ -18,6 +18,8 @@
 */
 
 Network::Network() : port(portNumber) {
+
+
     pthread_create(tid, NULL, Network_thread, NULL);
 }
 

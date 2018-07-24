@@ -1,3 +1,6 @@
+#ifndef __GPIO_H__
+#define __GPIO_H__
+
 #include <string>
 #include <fstream>
 
@@ -17,3 +20,5 @@ public:
     virtual int readValue();
     virtual void GPIO::writeValue(string newValue);
 };
+
+#endif
