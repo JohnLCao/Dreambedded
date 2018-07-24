@@ -30,12 +30,17 @@
 *.exe
 *.out
 *.app
-/build/*
-/.metadata/
+*/build/*
+*/.metadata/*
+dreambed
 
-/server/node_modules
+# Node
+*/server/node_modules
 
 #IDE and project settings
 .project
 .cproject
 .settings/*
+
+# Mac files
+.DS_Store

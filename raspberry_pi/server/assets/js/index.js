@@ -1,0 +1,8 @@
+import './app/app.js'
+import './app/config.js'
+import './app/routes.js'
+import './app/navbar/navbar.js'
+import './app/devices/devices_controller.js'
+import './app/devices/devices_show_controller.js'
+import './app/helpers/material_upgrade.js'
+import './app/services/socket.js'
