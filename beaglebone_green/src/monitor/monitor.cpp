@@ -19,8 +19,8 @@ using namespace std;
 
 int main()
 {
+	cout << "MAIN <------" << endl;
 	IRDistanceSensor irSensor = IRDistanceSensor();
-  cout << "MAIN <------" << endl;
 //
 //	//TODO: this should be moved to the main() / binary for the irSensor.
 	irSensor.serveData();

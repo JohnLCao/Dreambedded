@@ -11,6 +11,7 @@
 #include "sensor.h"
 #include "support/adc.h"
 #include "support/network/network.h"
+#include <string>
 
 class IRDistanceSensor : public Sensor {
 public:
@@ -23,6 +24,7 @@ private:
 	UdpServer* irServer;
 	int getData();
 	void handleRequest(string req);
+	string reportStatus();
 };
 
 #endif /* HEADER_SENSORS_IR_DISTANCE_SENSOR_H_ */
