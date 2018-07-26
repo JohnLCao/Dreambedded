@@ -48,7 +48,7 @@ monitor:
 #-------
 #SENSORS
 #-------
-sensor: ir_distance_sensor #audio_sensor power_sensor
+sensor: ir_distance_sensor #sound_sensor #power_sensor
 
 ir_distance_sensor:
 	$(MAKE_BUILD_FOLDER)
