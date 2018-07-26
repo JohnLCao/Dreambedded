@@ -9,7 +9,6 @@
 #include <string>
 #include <iostream>
 #include <thread>
-#include <string>
 #include <cstdlib>
 #include <ratio>
 #include <chrono>
@@ -42,19 +41,27 @@ void driveByClappingWithSoundSensor() {
 	int soundReadValue = 0;
 	int slapCount = 0;
 	int reachTriggerValue = 0;
+	int normalReadingValue = 0;
 
 	SoundSensor soundSensor = SoundSensor(SOUND_SENSOR_AIN);
 	while (1) {
 		slapCount = 0;
         while (slapCount <= NUM_SLAPS) {
             reachTriggerValue = 0;
+			normalReadingValue = 0;
             for (int i = 0; i < NUM_SAMPLES; i++) {
                 soundReadValue = soundSensor.getData();
+				normalReadingValue = (normalReadingValue + soundReadValue) / (i + 1);
                 if (soundReadValue > SOUND_TRIGGER_VALUE) {
                     // std::cout << soundReadValue << '\n';
                     reachTriggerValue = 1;
                 }
             }
+
+			while (reachTriggerValue && soundSensor.getData() > normalReadingValue) {
+				// keeping reading
+			}
+
             if (reachTriggerValue) {
                 slapCount++;
                 if (slapCount == 1) begin = Time::now();
