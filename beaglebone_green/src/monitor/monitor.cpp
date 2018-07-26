@@ -14,13 +14,17 @@
 #include <chrono>
 #include <unistd.h>
 #include "support/network/network.h"
+#include "sensors/sound_sensor.h"
+#include "support/gpio.h"
 
 #define POLL_PERIOD 100000
 #define TIME_INTERVAL_ms 500
 #define SOUND_TRIGGER_VALUE 1500
+#define IR_TRIGGER_VALUE 2000
 #define NUM_SAMPLES 10
 #define NUM_SLAPS 2
 #define SOUND_SENSOR_AIN 4
+#define IR_SENSOR_AIN	 1
 
 typedef std::chrono::high_resolution_clock Time;
 typedef std::chrono::milliseconds ms;
@@ -32,8 +36,8 @@ using namespace std;
 // 		  before including any C++ libraries.
 
 // status for sensors
-int soundRelayActivation = 0;
-
+bool soundRelayActivation = false;
+bool irRelayActivation = false;
 
 // function for soundSensor thread
 void driveByClappingWithSoundSensor() {
@@ -71,7 +75,7 @@ void driveByClappingWithSoundSensor() {
                     ms elapse = std::chrono::duration_cast<ms>(fs);
                     if (elapse.count() < TIME_INTERVAL_ms ) {
                         // TODO: toggle relay
-						soundRelayActivation = (soundRelayActivation == 1) ? 0 : 1;
+						soundRelayActivation = !soundRelayActivation;
 						// sleep(5);
                         break;
                     } else {
@@ -85,15 +89,37 @@ void driveByClappingWithSoundSensor() {
     }
 }
 
+void driveByThreasholdWithIRSensor()
+{
+	int irReadValue = 0;
+	int triggerTimes = 0;
+
+	IRDistanceSensor irSensor = IRDistanceSensor(IR_SENSOR_AIN);
+	while (1) {
+		for (int i = 0; i < NUM_SAMPLES; i++){
+			triggerTimes = 0;
+			irReadValue = irSensor.getData();
+			if (irReadValue > IR_TRIGGER_VALUE){
+				triggerTimes++;
+				usleep(10000);
+			} else {
+				break;
+			}
+		}
+		//IR sensor will turn light off if no one is in the room
+		irRelayActivation = (triggerTimes == NUM_SAMPLES);
+	}
+}
+
 int main()
 {
 	cout << "MAIN <------" << endl;
-	IRDistanceSensor irSensor = IRDistanceSensor();
 
 	// start soundSensor thread
 	thread soundSensor (driveByClappingWithSoundSensor);
-//
-//	//TODO: this should be moved to the main() / binary for the irSensor.
-	irSensor.serveData();
+	// start IR sensor thread
+	thread irSensor (driveByThreasholdWithIRSensor);
+
+
 	return 0;
 }

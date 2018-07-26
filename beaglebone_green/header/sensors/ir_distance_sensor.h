@@ -16,7 +16,6 @@
 class IRDistanceSensor : public Sensor {
 public:
 	IRDistanceSensor();
-	~IRDistanceSensor();
 	void serveData();
 private:
 	int data;
