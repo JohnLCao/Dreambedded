@@ -6,7 +6,6 @@
  */
 
 #include "monitor/monitor.h"
-#include <string>
 #include <iostream>
 #include <thread>
 #include <string>
@@ -42,19 +41,27 @@ void driveByClappingWithSoundSensor() {
 	int soundReadValue = 0;
 	int slapCount = 0;
 	int reachTriggerValue = 0;
+	int averageReadingValue = 0;
 
 	SoundSensor soundSensor = SoundSensor(SOUND_SENSOR_AIN);
 	while (1) {
 		slapCount = 0;
         while (slapCount <= NUM_SLAPS) {
             reachTriggerValue = 0;
+			averageReadingValue = 0;
             for (int i = 0; i < NUM_SAMPLES; i++) {
                 soundReadValue = soundSensor.getData();
+				averageReadingValue = (averageReadingValue + soundReadValue) / (i + 1);
                 if (soundReadValue > SOUND_TRIGGER_VALUE) {
                     // std::cout << soundReadValue << '\n';
                     reachTriggerValue = 1;
                 }
             }
+
+			while (reachTriggerValue && soundSensor.getData() > averageReadingValue) {
+				// keep reading
+			}
+
             if (reachTriggerValue) {
                 slapCount++;
                 if (slapCount == 1) begin = Time::now();
