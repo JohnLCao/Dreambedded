@@ -19,7 +19,7 @@
 
 using namespace std;
 
-IRDistanceSensor::IRDistanceSensor()
+IRDistanceSensor::IRDistanceSensor(int AINNumber)
 {
 	irADC = ADC(IR_AIN);
 	data = irADC.readValue();

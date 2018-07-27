@@ -20,7 +20,7 @@ CFLAGS	 = -g -Wall -std=c++11 #adjust as needed
 LIB		 = #-pthread
 SLOTS    = /sys/devices/platform/bone_capemgr/slots
 BBC		 = BB-ADC
-SENSORS	 = $(BUILD)/ir_distance_sensor #audio_sensor.o power_sensor.o
+SENSORS	 = $(BUILD)/ir_distance_sensor $(BUILD)/sound_sensor #audio_sensor.o power_sensor.o
 SUPPORT	 = $(BUILD)/adc $(BUILD)/gpio $(BUILD)/udp_server
 MONITOR  = $(BUILD)/monitor
 MAKE_BUILD_FOLDER = mkdir -p $(BUILD)
@@ -37,7 +37,7 @@ OUTPUT = dreambed
 
 all: support sensor actuator monitor
 	#echo $(BBC) > $(SLOTS)
-	$(CCPREFIX)$(CC) -o $(OUTPUT) $(SENSORS) $(SUPPORT) $(MONITOR) libstdc++.so.6
+	$(CCPREFIX)$(CC) -o $(OUTPUT) $(SENSORS) $(SUPPORT) $(MONITOR) libstdc++.so.6 -pthread
 	cp dreambed $(PUBDIR)
 
 #-------

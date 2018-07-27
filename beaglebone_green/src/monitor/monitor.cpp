@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include "support/network/network.h"
 #include "sensors/sound_sensor.h"
+#include "sensors/ir_distance_sensor.h"
 #include "support/gpio.h"
 
 #define POLL_PERIOD 100000
@@ -116,9 +117,9 @@ int main()
 	cout << "MAIN <------" << endl;
 
 	// start soundSensor thread
-	thread soundSensor (driveByClappingWithSoundSensor);
+	thread soundSensor(driveByClappingWithSoundSensor);
 	// start IR sensor thread
-	thread irSensor (driveByThreasholdWithIRSensor);
+	thread irSensor(driveByThreasholdWithIRSensor);
 
 	return 0;
 }
