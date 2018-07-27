@@ -21,7 +21,7 @@ LIB		 = -pthread
 SLOTS    = /sys/devices/platform/bone_capemgr/slots
 BBC		 = BB-ADC
 SENSORS	 = $(BUILD)/ir_distance_sensor $(BUILD)/sound_sensor #power_sensor.o
-SUPPORT	 = $(BUILD)/adc $(BUILD)/gpio $(BUILD)/udp_server
+SUPPORT	 = $(BUILD)/adc $(BUILD)/gpio $(BUILD)/udp_server $(BUILD)/network
 MONITOR  = $(BUILD)/monitor
 MAKE_BUILD_FOLDER = mkdir -p $(BUILD)
 # BUILD_PREFIX = $(CCPREFIX)$(CC) $(INC) $(CFLAGS)$(LIB) -c -D_GLIBCXX_USE_CXX11_ABI=0 $(SRC)/
@@ -67,7 +67,7 @@ actuator:
 #-------
 #SUPPORT
 #-------
-support: adc gpio udp_server
+support: adc gpio udp_server network
 
 adc:
 	$(MAKE_BUILD_FOLDER)
@@ -78,6 +78,10 @@ gpio:
 	$(BUILD_SUPPORT)
 
 udp_server:
+	$(MAKE_BUILD_FOLDER)
+	$(COMMON_PREFIX)network/$@.$(SRCTYPE) -o $(BUILD)/$@
+
+network:
 	$(MAKE_BUILD_FOLDER)
 	$(COMMON_PREFIX)network/$@.$(SRCTYPE) -o $(BUILD)/$@
 
