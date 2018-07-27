@@ -33,9 +33,11 @@ COMMON_PREFIX = $(CCPREFIX)$(CC) $(INC) $(CFLAGS)$(LIB) -c -D_GLIBCXX_USE_CXX11_
 #COMMON_SUFFIX = /$@.$(SRCTYPE) -o $(BUILD)/$@ ###may change later
 BUILD_SUPPORT = $(COMMON_PREFIX)$@.$(SRCTYPE) -o $(BUILD)/$@
 
+OUTPUT = dreambed
+
 all: support sensor actuator monitor
 	#echo $(BBC) > $(SLOTS)
-	$(CCPREFIX)$(CC) -o dreambed $(SENSORS) $(SUPPORT) $(MONITOR) libstdc++.so.6
+	$(CCPREFIX)$(CC) -o $(OUTPUT) $(SENSORS) $(SUPPORT) $(MONITOR) libstdc++.so.6
 	cp dreambed $(PUBDIR)
 
 #-------
@@ -48,12 +50,15 @@ monitor:
 #-------
 #SENSORS
 #-------
-sensor: ir_distance_sensor #audio_sensor power_sensor
+sensor: ir_distance_sensor sound_sensor #power_sensor
 
 ir_distance_sensor:
 	$(MAKE_BUILD_FOLDER)
 	$(BUILD_SENSOR)
 
+sound_sensor:
+	$(MAKE_BUILD_FOLDER)
+	$(BUILD_SENSOR)
 #---------
 #ACTUATORS
 #---------
@@ -79,3 +84,4 @@ udp_server:
 ######################################
 clean: #remove executables
 	rm -r $(BUILD)
+	rm $(OUTPUT)

@@ -15,7 +15,7 @@ const Bridge = {
   },
 
   send(messageType, payload, errorCallback) {
-    const buffer = Buffer.from([messageType, payload].join(" "))
+    const buffer = Buffer.from([messageType, payload].join("::"))
 
     client.send(buffer, 0, buffer.length, PORT, HOST, (err, bytes) => {
         if (err) {

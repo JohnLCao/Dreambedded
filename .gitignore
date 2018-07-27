@@ -36,6 +36,7 @@ dreambed
 
 # Node
 */server/node_modules
+*/bundle.js
 
 #IDE and project settings
 .project

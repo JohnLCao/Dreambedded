@@ -4,7 +4,7 @@
       %span.mdl-layout-title Dreambedded
       .mdl-layout-spacer
       %nav.mdl-navigation.mdl-layout--large-screen-only
-        %a.mdl-navigation__link(href="javascript:void(0)") Register Device
+        %a.mdl-navigation__link(href="javascript:void(0)" ui-sref="devices.new()") Register Device
         %a.mdl-navigation__link(href="javascript:void(0)") Settings
   .mdl-layout__drawer
     %span.mdl-layout-title Devices
