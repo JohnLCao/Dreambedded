@@ -17,11 +17,9 @@ using namespace std;
 //XXX add #define _GLIBCXX_USE_CXX11_ABI 0  	--as a stop gap.
 // 		  before including any C++ libraries.
 
-int main()
-{
+int main() {
 	IRDistanceSensor irSensor = IRDistanceSensor();
-  cout << "MAIN <------" << endl;
-//
+	cout << "MAIN <------" << endl;
 //	//TODO: this should be moved to the main() / binary for the irSensor.
 	irSensor.serveData();
 	return 0;

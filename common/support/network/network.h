@@ -24,23 +24,18 @@ using namespace std;
 class Network {
   public:
     Network(void *(*callback)(UdpServer *server));
-
     ~Network();
-
     void wait();
-
     void start();
 
   private:
     thread runner;
-
     UdpServer *server;
 
+    // Clarification: declares a function pointer; the function which takes a UdpServer pointer
+    // as an argument, and returns a generic (void) pointer
     void *(*runnerCallback)(UdpServer *server);
-
     bool isServing();
-
     void setRunnerEnabled(bool val);
-
     bool isRunnerEnabled;
 };
