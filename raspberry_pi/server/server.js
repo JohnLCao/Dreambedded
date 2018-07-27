@@ -13,9 +13,8 @@ app.get('/*', (req, resp) => {
 })
 
 io.on('connection', (client) => {
-  console.log("new connection!!!")
   client.on('heartbeat', (message) => {
-    Bridge.send("heartBeat", message);
+    Bridge.send("heartBeat", message)
   })
 })
 

@@ -1,21 +1,24 @@
 #include <iostream>
 
-#include "actuators/relay.h"
-#include "support/network/network.h"
-#include "support/network/udp_server.h"
+#include "monitor/monitor.h"
+#include "commands/command_handler_bb.h"
+#include "commands/command_handler_ui.h"
 
 using namespace std;
 
-void *callbackFn(UdpServer *server) {
-  int readBytes;
-  string message = server->receive(&readBytes);
-  cout << message << endl;
-  return NULL;
-}
+#define UI_MONITOR_PORT 22222
+#define BB_MONITOR_PORT 22111
 
 int main(int argc, char const *argv[]) {
-  Network network(callbackFn);
-  network.wait();
+  CommandHandlerUi handlerUi;
+  Monitor uiMonitor(UI_MONITOR_PORT);
+  uiMonitor.setCmdHandler(handlerUi);
 
+  // CommandHandlerBb handlerBb;
+  // Monitor bbMonitor(BB_MONITOR_PORT);
+  // bbMonitor.setCmdHandler(handlerBb);
+
+  uiMonitor.listen();
+  // bbMonitor.listen();
   return 0;
 }
