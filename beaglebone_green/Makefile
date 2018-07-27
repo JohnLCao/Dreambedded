@@ -37,8 +37,9 @@ OUTPUT = dreambed
 
 all: support sensor actuator monitor
 	#echo $(BBC) > $(SLOTS)
-	$(CCPREFIX)$(CC) -o $(OUTPUT) $(SENSORS) $(SUPPORT) $(MONITOR) libstdc++.so.6 -pthread
-	cp dreambed $(PUBDIR)
+	#$(CCPREFIX)$(CC) -o $(OUTPUT) $(SENSORS) $(SUPPORT) $(MONITOR) libstdc++.so.6 -pthread
+	$(CCPREFIX)$(CC) -o $(OUTPUT) $(SENSORS) $(SUPPORT) $(MONITOR) -lpthread
+	#cp dreambed $(PUBDIR)
 
 #-------
 #MONITOR
