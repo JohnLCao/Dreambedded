@@ -1,6 +1,6 @@
 #pragma once
 
-#define _GLIBCXX_USE_CXX11_ABI 0
+// #define _GLIBCXX_USE_CXX11_ABI 0
 
 #include <iostream>
 #include <fstream>
@@ -13,7 +13,7 @@ class ADC {
     private:
         int number;
         string path;
-  
+
 public:
   ADC();
   ~ADC();
