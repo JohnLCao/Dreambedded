@@ -14,18 +14,24 @@
 #include <chrono>
 #include <unistd.h>
 #include "support/network/network.h"
+#include "support/network/udp_server.h"
 #include "sensors/sound_sensor.h"
 #include "sensors/ir_distance_sensor.h"
 #include "support/gpio.h"
 
 #define POLL_PERIOD 100000
 #define TIME_INTERVAL_ms 500
-#define SOUND_TRIGGER_VALUE 1500
-#define IR_TRIGGER_VALUE 2000
+#define SOUND_TRIGGER_VALUE 1200
+#define IR_TRIGGER_VALUE 1000
 #define NUM_SAMPLES 10
 #define NUM_SLAPS 2
 #define SOUND_SENSOR_AIN 4
 #define IR_SENSOR_AIN	 1
+#define STOP 			"stop"
+#define STATUS 			"status"
+#define ACTIVE			"active"
+#define IDLE			"idle"
+#define PORT			12345
 
 typedef std::chrono::high_resolution_clock Time;
 typedef std::chrono::milliseconds ms;
@@ -48,7 +54,8 @@ void driveByClappingWithSoundSensor() {
 	int reachTriggerValue = 0;
 	int normalReadingValue = 0;
 
-	SoundSensor soundSensor = SoundSensor(SOUND_SENSOR_AIN);
+	SoundSensor soundSensor = SoundSensor();
+
 	while (1) {
 		slapCount = 0;
         while (slapCount <= NUM_SLAPS) {
@@ -56,14 +63,14 @@ void driveByClappingWithSoundSensor() {
 			normalReadingValue = 0;
             for (int i = 0; i < NUM_SAMPLES; i++) {
                 soundReadValue = soundSensor.getData();
-				normalReadingValue = (normalReadingValue + soundReadValue) / (i + 1);
+				normalReadingValue += soundReadValue;
                 if (soundReadValue > SOUND_TRIGGER_VALUE) {
-                    // std::cout << soundReadValue << '\n';
+					// std::cout << "soundReadValue: " << soundReadValue << '\n';
                     reachTriggerValue = 1;
                 }
             }
 
-			while (reachTriggerValue && soundSensor.getData() > normalReadingValue) {
+			while (reachTriggerValue && soundSensor.getData() > (normalReadingValue / NUM_SAMPLES)) {
 				// keeping reading
 			}
 
@@ -75,9 +82,7 @@ void driveByClappingWithSoundSensor() {
                     fsec fs = end - begin;
                     ms elapse = std::chrono::duration_cast<ms>(fs);
                     if (elapse.count() < TIME_INTERVAL_ms ) {
-                        // TODO: toggle relay
 						soundRelayActivation = !soundRelayActivation;
-						// sleep(5);
                         break;
                     } else {
                         // reset slapCount to 1
@@ -95,7 +100,7 @@ void driveByThreasholdWithIRSensor()
 	int irReadValue = 0;
 	int triggerTimes = 0;
 
-	IRDistanceSensor irSensor = IRDistanceSensor(IR_SENSOR_AIN);
+	IRDistanceSensor irSensor = IRDistanceSensor();
 	while (1) {
 		for (int i = 0; i < NUM_SAMPLES; i++){
 			triggerTimes = 0;
@@ -112,6 +117,20 @@ void driveByThreasholdWithIRSensor()
 	}
 }
 
+bool BBG_network_cb(Network* net)
+{
+	int bytesRead;
+	UdpServer* udp = net->getServer();
+  	string reply = udp->receive(&bytesRead);
+  	if (reply.find(STATUS) == 0){
+  		string res = (soundRelayActivation || irRelayActivation) ? ACTIVE : IDLE;
+  		udp->send(res);
+  		return true;
+  	}
+  	//exit if received stop command
+  	return reply.find(STOP) != 0;
+}
+
 int main()
 {
 	cout << "MAIN <------" << endl;
@@ -119,7 +138,10 @@ int main()
 	// start soundSensor thread
 	thread soundSensor(driveByClappingWithSoundSensor);
 	// start IR sensor thread
-	thread irSensor(driveByThreasholdWithIRSensor);
+	thread irSensor (driveByThreasholdWithIRSensor);
+
+	Network monitor(PORT, &BBG_network_cb);
+	monitor.wait();
 
 	return 0;
 }

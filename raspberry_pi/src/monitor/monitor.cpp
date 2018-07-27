@@ -9,8 +9,9 @@
 bool Monitor::networkCallback(Network *net) {
   int bytesRead;
   string reply = net->getServer()->receive(&bytesRead);
+
   Monitor *ctx = (Monitor *)(net->getContext());
-  ctx->cmdHandler.handle(reply);
+  ctx->cmdHandler->handle(reply);
 
   return true;
 }
@@ -24,7 +25,7 @@ Monitor::~Monitor() {
   delete network;
 }
 
-void Monitor::setCmdHandler(CommandHandler handler) {
+void Monitor::setCmdHandler(CommandHandler *handler) {
   cmdHandler = handler;
 }
 

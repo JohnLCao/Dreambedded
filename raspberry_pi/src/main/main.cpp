@@ -12,7 +12,7 @@ using namespace std;
 int main(int argc, char const *argv[]) {
   CommandHandlerUi handlerUi;
   Monitor uiMonitor(UI_MONITOR_PORT);
-  uiMonitor.setCmdHandler(handlerUi);
+  uiMonitor.setCmdHandler(&handlerUi);
 
   // CommandHandlerBb handlerBb;
   // Monitor bbMonitor(BB_MONITOR_PORT);

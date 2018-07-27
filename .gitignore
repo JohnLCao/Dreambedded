@@ -36,7 +36,7 @@ dreambed
 
 # Node
 */server/node_modules
-*/bundle.js
+raspberry_pi/server/public/bundle.js
 
 #IDE and project settings
 .project
