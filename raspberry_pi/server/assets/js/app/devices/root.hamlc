@@ -1,2 +1,17 @@
 .container
-  %div(ui-view)
+  .devices-root(ui-view)
+
+.application-status-container(material-upgrade="true")
+  .mdl-card.mdl-shadow--2dp.rpi-status
+    .mdl-card__title
+      %h2.mdl-card__title-text Raspberry Pi Status
+
+    .mdl-card__supporting-text
+      TO DO: .....
+
+  .mdl-card.mdl-shadow--2dp.bb-status
+    .mdl-card__title
+      %h2.mdl-card__title-text Beaglebone Status
+
+    .mdl-card__supporting-text
+      TO DO: .....

@@ -3,7 +3,6 @@ const app = angular.module('dreambedded')
 app.service('DeviceStore', [
   () => {
 
-    let _devices = {}
     let _store = window.localStorage
     let _storeKey = 'dreambedded:devices'
     let api  = {}
@@ -15,10 +14,11 @@ app.service('DeviceStore', [
 
     api.create = (device) => {
       let id = _generateId()
-      _devices[id] = device
-
       let items = _store.getItem(_storeKey) || "{}"
-      let payload = angular.extend({}, JSON.parse(items), _devices)
+      let payload = JSON.parse(items)
+      let item = {}
+      item[id] = device
+      payload = angular.extend({}, payload, item)
 
       _store.setItem(_storeKey, JSON.stringify(payload))
 
@@ -35,12 +35,14 @@ app.service('DeviceStore', [
 
     api.getDevices = () => {
       let items = _store.getItem(_storeKey) || "{}"
-      items = angular.extend({}, JSON.parse(items), _devices)
+      items = JSON.parse(items)
 
       let devices = []
 
       Object.keys(items).forEach((id) => {
-        devices.push(items[id])
+        devices.push(
+          angular.extend({}, items[id], { id: id })
+        )
       })
 
       return devices

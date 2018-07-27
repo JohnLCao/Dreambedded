@@ -12,12 +12,12 @@ class Monitor {
 
     void listen();
 
-    void setCmdHandler(CommandHandler handler);
+    void setCmdHandler(CommandHandler *handler);
 
     static bool networkCallback(Network *net);
 
   private:
-    CommandHandler cmdHandler;
+    CommandHandler *cmdHandler;
 
     Network *network;
 };

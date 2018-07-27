@@ -10,6 +10,6 @@ class CommandHandler {
 
     ~CommandHandler();
 
-    void handle(string msg);
+    virtual void handle(string msg);
 
 };

@@ -9,16 +9,23 @@
 using namespace std;
 
 class GPIO {
-private:
-    int number;
-    string basePath, directionPath, valuePath;
-	void writeToFile(string fileName, string value);
-	void writeToFile(string fileName, int value);
-	int readFromFile(string fileName);
-
-public:
+  public:
     GPIO (int gpioNumber);
+
     virtual int readValue();
+
     virtual void writeValue(int newValue);
+
     virtual ~GPIO();
+
+  private:
+    int number;
+
+    string basePath, directionPath, valuePath;
+
+    void writeToFile(string fileName, string value);
+
+    void writeToFile(string fileName, int value);
+
+    int readFromFile(string fileName);
 };
