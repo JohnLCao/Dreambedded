@@ -15,12 +15,13 @@
 #include <unistd.h>
 #include "support/network/network.h"
 #include "sensors/sound_sensor.h"
+#include "sensors/ir_distance_sensor.h"
 #include "support/gpio.h"
 
 #define POLL_PERIOD 100000
 #define TIME_INTERVAL_ms 500
-#define SOUND_TRIGGER_VALUE 1500
-#define IR_TRIGGER_VALUE 2000
+#define SOUND_TRIGGER_VALUE 1200
+#define IR_TRIGGER_VALUE 1000
 #define NUM_SAMPLES 10
 #define NUM_SLAPS 2
 #define SOUND_SENSOR_AIN 4
@@ -47,7 +48,8 @@ void driveByClappingWithSoundSensor() {
 	int reachTriggerValue = 0;
 	int normalReadingValue = 0;
 
-	SoundSensor soundSensor = SoundSensor(SOUND_SENSOR_AIN);
+	SoundSensor soundSensor = SoundSensor();
+
 	while (1) {
 		slapCount = 0;
         while (slapCount <= NUM_SLAPS) {
@@ -55,9 +57,9 @@ void driveByClappingWithSoundSensor() {
 			normalReadingValue = 0;
             for (int i = 0; i < NUM_SAMPLES; i++) {
                 soundReadValue = soundSensor.getData();
-				normalReadingValue = (normalReadingValue + soundReadValue) / (i + 1);
+				normalReadingValue += soundReadValue;
                 if (soundReadValue > SOUND_TRIGGER_VALUE) {
-                    // std::cout << soundReadValue << '\n';
+					// std::cout << "soundReadValue: " << soundReadValue << '\n';
                     reachTriggerValue = 1;
                 }
             }
@@ -74,9 +76,7 @@ void driveByClappingWithSoundSensor() {
                     fsec fs = end - begin;
                     ms elapse = std::chrono::duration_cast<ms>(fs);
                     if (elapse.count() < TIME_INTERVAL_ms ) {
-                        // TODO: toggle relay
 						soundRelayActivation = !soundRelayActivation;
-						// sleep(5);
                         break;
                     } else {
                         // reset slapCount to 1
@@ -94,7 +94,7 @@ void driveByThreasholdWithIRSensor()
 	int irReadValue = 0;
 	int triggerTimes = 0;
 
-	IRDistanceSensor irSensor = IRDistanceSensor(IR_SENSOR_AIN);
+	IRDistanceSensor irSensor = IRDistanceSensor();
 	while (1) {
 		for (int i = 0; i < NUM_SAMPLES; i++){
 			triggerTimes = 0;
@@ -111,6 +111,26 @@ void driveByThreasholdWithIRSensor()
 	}
 }
 
+// void test() {
+// 	GPIO LED = GPIO(49);
+//
+// 	while (1) {
+// 		if (soundRelayActivation) {
+// 			// std::cout << "ON" << '\n';
+// 			LED.writeValue(1);
+// 			while (soundRelayActivation) {
+// 				// do nothing
+// 			}
+// 		} else {
+// 			// std::cout << "OFF" << '\n';
+// 			LED.writeValue(0);
+// 			while (!soundRelayActivation) {
+// 				/* code */
+// 			}
+// 		}
+// 	}
+// }
+
 int main()
 {
 	cout << "MAIN <------" << endl;
@@ -120,6 +140,11 @@ int main()
 	// start IR sensor thread
 	thread irSensor (driveByThreasholdWithIRSensor);
 
+	// thread testLED (test);
+
+	soundSensor.join();
+	irSensor.join();
+	// testLED.join();
 
 	return 0;
 }

@@ -25,6 +25,12 @@ IRDistanceSensor::IRDistanceSensor()
 	data = irADC.readValue();
 }
 
+IRDistanceSensor::IRDistanceSensor(int AINNumber)
+{
+	irAIN = AINNumber;
+	irADC = ADC(irAIN);
+	data = irADC.readValue();
+}
 
 int IRDistanceSensor::getData()
 {
@@ -70,6 +76,3 @@ void IRDistanceSensor::handleRequest(string req)
 	}
 }
 */
-
-
-
