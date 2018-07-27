@@ -64,7 +64,7 @@ void driveByClappingWithSoundSensor() {
                 }
             }
 
-			while (reachTriggerValue && soundSensor.getData() > normalReadingValue) {
+			while (reachTriggerValue && soundSensor.getData() > (normalReadingValue / NUM_SAMPLES)) {
 				// keeping reading
 			}
 
@@ -140,7 +140,7 @@ int main()
 	// start IR sensor thread
 	thread irSensor (driveByThreasholdWithIRSensor);
 
-	// thread testLED (test);
+	thread testLED (test);
 
 	soundSensor.join();
 	irSensor.join();

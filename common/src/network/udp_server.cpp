@@ -3,6 +3,7 @@
 #include <unistd.h> // for close
 #include <netdb.h>
 #include <string>
+#include <iostream>
 
 #define MAX_MSG_SIZE 64000
 
@@ -53,6 +54,6 @@ string UdpServer::receive(int *bytesRead) {
     &(addrInfoLen)
   );
 
-  msg[MAX_MSG_SIZE] = 0;
+  msg[*bytesRead] = 0;
   return string(msg);
 }

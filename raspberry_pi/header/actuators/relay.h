@@ -1,6 +1,15 @@
 #pragma once
 
 class Relay {
-  private:
   public:
+    Relay(int p);
+
+    ~Relay();
+
+    void setOn();
+
+    void setOff();
+
+  private:
+    int pin;
 };

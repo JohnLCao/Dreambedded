@@ -1,10 +1,10 @@
 #include "support/gpio.h"
 
-
 GPIO::GPIO(int gpioNumber) {
   string EXPORT_FILE = "/sys/class/gpio/export";
+
   number        = gpioNumber;
-  basePath      = "/sys/class/gpio/gpio" + to_string(gpioNumber);
+  basePath      = "/sys/class/gpio/gpio" + to_string(number);
   directionPath = basePath + "/direction";
   valuePath     = basePath + "/value";
 
