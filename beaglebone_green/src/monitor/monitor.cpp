@@ -136,7 +136,7 @@ int main()
 	cout << "MAIN <------" << endl;
 
 	// start soundSensor thread
-	thread soundSensor (driveByClappingWithSoundSensor);
+	thread soundSensor(driveByClappingWithSoundSensor);
 	// start IR sensor thread
 	thread irSensor (driveByThreasholdWithIRSensor);
 

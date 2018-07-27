@@ -25,31 +25,19 @@ using namespace std;
 class Network {
   public:
     Network(int port, bool (*callback)(Network *network));
-
     ~Network();
-
     void wait();
-
     void setContext(void *ctx);
-
     void* getContext();
-
     UdpServer* getServer();
 
   private:
     void *context;
-
     thread runner;
-
     UdpServer *server;
-
     void start();
-
     bool (*runnerCallback)(Network *network);
-
     bool isServing();
-
     void setRunnerEnabled(bool val);
-
     bool isRunnerEnabled;
 };

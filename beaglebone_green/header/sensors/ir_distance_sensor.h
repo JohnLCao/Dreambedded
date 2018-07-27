@@ -15,6 +15,7 @@
 
 class IRDistanceSensor : public Sensor {
 public:
+	void serveData();
 	IRDistanceSensor();
 	IRDistanceSensor(int AINNumber);
 	int getData();
@@ -22,6 +23,9 @@ private:
 	int irAIN;
 	int data;
 	ADC irADC;
+	UdpServer* irServer;
+	void handleRequest(string req);
+	string reportStatus();
 };
 
 #endif /* HEADER_SENSORS_IR_DISTANCE_SENSOR_H_ */
