@@ -32,7 +32,6 @@
 *.app
 */build/*
 */.metadata/*
-dreambed
 
 # Node
 */server/node_modules
