@@ -12,7 +12,7 @@ UdpServer::UdpServer(){};
 
 UdpServer::UdpServer(int _port, string host): port(_port) {
   addressInfo.sin_family = AF_INET;
-  addressInfo.sin_addr.s_addr = htonl(inet_addr(host.c_str()));
+  addressInfo.sin_addr.s_addr = inet_addr(host.c_str());
   addressInfo.sin_port = htons(port);
 
   descriptor = socket(PF_INET, SOCK_DGRAM, 0);
