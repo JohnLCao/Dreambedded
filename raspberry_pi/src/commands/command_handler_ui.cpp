@@ -18,6 +18,10 @@ CommandHandlerUi::~CommandHandlerUi() {
 
 }
 
+bool CommandHandlerUi::debounce() {
+  return false;
+}
+
 void CommandHandlerUi::device_off(string args[]) {
   cout << "UI ---> CMD: OFF, ARG: " << args[PIN_NUM_IDX] << endl;
   Relay relay(stoi(args[PIN_NUM_IDX]));

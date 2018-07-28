@@ -17,6 +17,10 @@ void CommandHandler::handle(string msg) {
   cout << msg << endl;
 }
 
+bool CommandHandler::debounce() {
+  return false;
+}
+
 void CommandHandler::tokenize(string msg, string tokens[]) {
   int cursor = 0;
   size_t position = msg.find(messageDelimeter);

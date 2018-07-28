@@ -11,6 +11,8 @@ class CommandHandlerUi: public CommandHandler {
 
     void handle(string msg);
 
+    bool debounce();
+
     // HANDLERS
     void device_off(string args[]);
 

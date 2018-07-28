@@ -12,7 +12,12 @@ bool Monitor::networkCallback(Network *net) {
 
   cout << "REPLY: " << reply << endl;
   Monitor *ctx = (Monitor *)(net->getContext());
-  ctx->cmdHandler->handle(reply);
+
+  if (!ctx->cmdHandler->debounce()) {
+    ctx->cmdHandler->handle(reply);
+  } else {
+    cout << "Monitor: debounce" << endl;
+  }
 
   return true;
 }
