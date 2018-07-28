@@ -7,7 +7,6 @@
 #include <arpa/inet.h>
 
 #define MAX_MSG_SIZE 64000
-#define STR "hi bitch"
 
 UdpServer::UdpServer(){};
 
@@ -30,12 +29,9 @@ UdpServer::~UdpServer() {
 }
 
 void UdpServer::send(string msg) {
-cout << "send" <<endl;
   sendto(descriptor,
-    //msg.c_str(),
-    //msg.size(),
-    STR,
-    8,
+    msg.c_str(),
+    msg.size(),
     0,
     (struct sockaddr *) &addressInfo,
     sizeof(addressInfo)
