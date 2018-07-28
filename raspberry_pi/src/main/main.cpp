@@ -6,8 +6,8 @@
 
 using namespace std;
 
-#define UI_MONITOR_PORT 22222
-#define BB_MONITOR_PORT 22111
+#define UI_MONITOR_PORT 22221
+#define BB_MONITOR_PORT 22222
 
 int main(int argc, char const *argv[]) {
   CommandHandlerUi handlerUi;
@@ -15,7 +15,7 @@ int main(int argc, char const *argv[]) {
   uiMonitor.setCmdHandler(&handlerUi);
 
   CommandHandlerBb handlerBb;
-  Monitor bbMonitor(BB_MONITOR_PORT, "142.58.82.58");
+  Monitor bbMonitor(BB_MONITOR_PORT, "0.0.0.0");
   bbMonitor.setCmdHandler(&handlerBb);
 
   uiMonitor.listen();
