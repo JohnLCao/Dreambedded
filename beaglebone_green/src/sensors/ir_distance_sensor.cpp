@@ -13,10 +13,6 @@
 #include <iostream>
 
 #define IR_AIN 		1
-#define UDP_PORT 	12345
-#define TERMINATE 	"stop"
-#define DATA		"data"
-#define STATUS		"status"
 
 #define THREASHOLD	1000 //to be changed
 #define TRIES		10
@@ -25,15 +21,15 @@ using namespace std;
 
 IRDistanceSensor::IRDistanceSensor()
 {
-	irADC = ADC(0); // test with potentiometer
-	//irADC = ADC(IR_AIN);
-	irServer = new UdpServer(UDP_PORT);
+	irADC = ADC(IR_AIN);
 	data = irADC.readValue();
 }
 
-IRDistanceSensor::~IRDistanceSensor()
+IRDistanceSensor::IRDistanceSensor(int AINNumber)
 {
-	delete irServer;
+	irAIN = AINNumber;
+	irADC = ADC(irAIN);
+	data = irADC.readValue();
 }
 
 int IRDistanceSensor::getData()
@@ -42,6 +38,7 @@ int IRDistanceSensor::getData()
 	return data;
 }
 
+/*
 string IRDistanceSensor::reportStatus()
 {
 	int activeReads = 0;
@@ -78,7 +75,4 @@ void IRDistanceSensor::handleRequest(string req)
 		irServer->send(status);
 	}
 }
-
-
-
-
+*/

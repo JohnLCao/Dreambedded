@@ -8,9 +8,10 @@ using namespace std;
 
 class UdpServer {
   public:
-    UdpServer(int port);
+    UdpServer(int port, string host);
 
     UdpServer();
+
     ~UdpServer();
 
     int getPort() const;

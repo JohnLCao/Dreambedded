@@ -1,4 +1,5 @@
 const Bridge = require('./lib/bridge')
+const Handlers = require('./lib/handlers')
 const express = require('express')
 const app = express()
 const PORT = 8088
@@ -13,10 +14,11 @@ app.get('/*', (req, resp) => {
 })
 
 io.on('connection', (client) => {
-  console.log("new connection!!!")
   client.on('heartbeat', (message) => {
-    Bridge.send("heartBeat", message);
+    Bridge.send("heartBeat", message)
   })
+
+  client.on('action', Handlers.__logger(Handlers.action))
 })
 
 server.listen(PORT, () =>

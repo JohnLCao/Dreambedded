@@ -7,11 +7,12 @@ using namespace std;
 
 // ==========  How to use it:
 //
-// void *callbackFn(UdpServer *server) {
+// bool callbackFn(UdpServer *server) {
 //   int readBytes;
 //   string message = server->receive(&readBytes);
 //   cout << message << endl;
-//   return NULL;
+//   // Should return false when you want to abort
+//   return true;
 // }
 
 // int main(int argc, char const *argv[]) {
@@ -23,20 +24,30 @@ using namespace std;
 
 class Network {
   public:
-    Network(void *(*callback)(UdpServer *server));
+    Network(int port, string h, bool (*callback)(Network *network));
 
     ~Network();
 
     void wait();
 
-    void start();
+    void setContext(void *ctx);
+
+    void* getContext();
+
+    UdpServer* getServer();
 
   private:
+    string host;
+
+    void *context;
+
     thread runner;
 
     UdpServer *server;
 
-    void *(*runnerCallback)(UdpServer *server);
+    void start();
+
+    bool (*runnerCallback)(Network *network);
 
     bool isServing();
 

@@ -32,10 +32,10 @@
 *.app
 */build/*
 */.metadata/*
-dreambed
 
 # Node
 */server/node_modules
+raspberry_pi/server/public/bundle.js
 
 #IDE and project settings
 .project
