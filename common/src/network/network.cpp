@@ -6,11 +6,12 @@
 
 using namespace std;
 
-Network::Network(int port, bool (*callback)(Network *network)) {
+Network::Network(int port, string h, bool (*callback)(Network *network)) {
+  host = h;
   runnerCallback = callback;
   setRunnerEnabled(true);
 
-  server = new UdpServer(port);
+  server = new UdpServer(port, host);
   runner = thread(&Network::start, this);
 }
 

@@ -11,14 +11,14 @@ using namespace std;
 
 int main(int argc, char const *argv[]) {
   CommandHandlerUi handlerUi;
-  Monitor uiMonitor(UI_MONITOR_PORT);
+  Monitor uiMonitor(UI_MONITOR_PORT, "0.0.0.0");
   uiMonitor.setCmdHandler(&handlerUi);
 
-  // CommandHandlerBb handlerBb;
-  // Monitor bbMonitor(BB_MONITOR_PORT);
-  // bbMonitor.setCmdHandler(handlerBb);
+  CommandHandlerBb handlerBb;
+  Monitor bbMonitor(BB_MONITOR_PORT, "142.58.82.58");
+  bbMonitor.setCmdHandler(&handlerBb);
 
   uiMonitor.listen();
-  // bbMonitor.listen();
+  bbMonitor.listen();
   return 0;
 }

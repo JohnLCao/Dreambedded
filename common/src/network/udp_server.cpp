@@ -4,14 +4,15 @@
 #include <netdb.h>
 #include <string>
 #include <iostream>
+#include <arpa/inet.h>
 
 #define MAX_MSG_SIZE 64000
 
 UdpServer::UdpServer(){};
 
-UdpServer::UdpServer(int _port): port(_port) {
+UdpServer::UdpServer(int _port, string host): port(_port) {
   addressInfo.sin_family = AF_INET;
-  addressInfo.sin_addr.s_addr = htonl(INADDR_ANY);
+  addressInfo.sin_addr.s_addr = htonl(inet_addr(host.c_str()));
   addressInfo.sin_port = htons(port);
 
   descriptor = socket(PF_INET, SOCK_DGRAM, 0);

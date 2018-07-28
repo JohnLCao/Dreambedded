@@ -16,8 +16,8 @@ bool Monitor::networkCallback(Network *net) {
   return true;
 }
 
-Monitor::Monitor(int port) {
-  network = new Network(port, &Monitor::networkCallback);
+Monitor::Monitor(int port, string host) {
+  network = new Network(port, host, &Monitor::networkCallback);
   network->setContext((void *)this);
 }
 

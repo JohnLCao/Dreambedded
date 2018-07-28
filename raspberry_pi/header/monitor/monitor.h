@@ -6,7 +6,7 @@
 
 class Monitor {
   public:
-    Monitor(int port);
+    Monitor(int port, string host);
 
     ~Monitor();
 

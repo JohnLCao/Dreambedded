@@ -24,7 +24,7 @@ using namespace std;
 
 class Network {
   public:
-    Network(int port, bool (*callback)(Network *network));
+    Network(int port, string h, bool (*callback)(Network *network));
 
     ~Network();
 
@@ -37,6 +37,8 @@ class Network {
     UdpServer* getServer();
 
   private:
+    string host;
+
     void *context;
 
     thread runner;
