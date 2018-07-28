@@ -47,6 +47,7 @@ using namespace std;
 // status for sensors
 bool soundRelayActivation = false;
 bool irRelayActivation = false;
+bool oldSoundState = !soundRelayActivation;
 
 // function for soundSensor thread
 void driveByClappingWithSoundSensor() {
@@ -125,8 +126,20 @@ bool BBG_network_cb(Network* net)
 	UdpServer* udp = net->getServer();
 
   	//if (reply.find(STATUS) == 0){
-	string res = (soundRelayActivation || irRelayActivation) ? ACTIVE : IDLE;
-	udp->send(res);
+	if (soundRelayActivation){
+		soundRelayActivation = false;
+		cout << "hi bitch" << endl;
+		udp->send(ACTIVE);
+		//usleep()
+	}
+
+	if (irRelayActivation){
+		udp->send(ACTIVE);
+		while (irRelayActivation) {
+			/* code */
+		}
+	}
+
 	return true;
   	//}
 	/*
