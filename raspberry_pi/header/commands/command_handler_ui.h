@@ -2,9 +2,6 @@
 
 #include "command_handler.h"
 #include <string>
-#include <map>
-
-// typedef void (CommandHandlerUi::*)(string args[]);
 
 class CommandHandlerUi: public CommandHandler {
   public:
