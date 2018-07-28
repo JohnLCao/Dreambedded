@@ -31,7 +31,9 @@
 #define STATUS 			"status"
 #define ACTIVE			"active"
 #define IDLE			"idle"
-#define PORT			12345
+#define PORT			22222
+#define RPI_IP 			"142.58.82.120"
+#define BBG_IP			""
 
 typedef std::chrono::high_resolution_clock Time;
 typedef std::chrono::milliseconds ms;
@@ -120,16 +122,17 @@ void driveByThreasholdWithIRSensor()
 
 bool BBG_network_cb(Network* net)
 {
-	int bytesRead;
 	UdpServer* udp = net->getServer();
-  	string reply = udp->receive(&bytesRead);
-  	if (reply.find(STATUS) == 0){
-  		string res = (soundRelayActivation || irRelayActivation) ? ACTIVE : IDLE;
-  		udp->send(res);
-  		return true;
-  	}
+
+  	//if (reply.find(STATUS) == 0){
+	string res = (soundRelayActivation || irRelayActivation) ? ACTIVE : IDLE;
+	udp->send(res);
+	return true;
+  	//}
+	/*
   	//exit if received stop command
   	return reply.find(STOP) != 0;
+	*/
 }
 
 int main()
@@ -141,7 +144,7 @@ int main()
 	// start IR sensor thread
 	thread irSensor (driveByThreasholdWithIRSensor);
 
-	Network monitor(PORT, &BBG_network_cb);
+	Network monitor(PORT, RPI_IP, &BBG_network_cb);
 	monitor.wait();
 
 	soundSensor.join();
