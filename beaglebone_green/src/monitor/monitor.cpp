@@ -21,8 +21,8 @@
 
 #define POLL_PERIOD 100000
 #define TIME_INTERVAL_ms 500
-#define SOUND_TRIGGER_VALUE 1200
-#define IR_TRIGGER_VALUE 1000
+#define SOUND_TRIGGER_VALUE 1500
+#define IR_TRIGGER_VALUE 1600
 #define NUM_SAMPLES 10
 #define NUM_SLAPS 2
 #define SOUND_SENSOR_AIN 4
@@ -97,23 +97,24 @@ void driveByClappingWithSoundSensor() {
 
 void driveByThreasholdWithIRSensor()
 {
-	int irReadValue = 0;
-	int triggerTimes = 0;
+	// int irReadValue = 0;
+	// int triggerTimes = 0;
 
 	IRDistanceSensor irSensor = IRDistanceSensor();
 	while (1) {
-		for (int i = 0; i < NUM_SAMPLES; i++){
-			triggerTimes = 0;
-			irReadValue = irSensor.getData();
-			if (irReadValue > IR_TRIGGER_VALUE){
-				triggerTimes++;
-				usleep(10000);
-			} else {
-				break;
-			}
-		}
+		// for (int i = 0; i < NUM_SAMPLES; i++){
+		// 	triggerTimes = 0;
+		// 	irReadValue = irSensor.getData();
+		// 	if (irReadValue > IR_TRIGGER_VALUE){
+		// 		triggerTimes++;
+		// 		usleep(10000);
+		// 	} else {
+		// 		break;
+		// 	}
+		// }
 		//IR sensor will turn light off if no one is in the room
-		irRelayActivation = (triggerTimes == NUM_SAMPLES);
+		//irRelayActivation = (triggerTimes == NUM_SAMPLES);
+		irRelayActivation = irSensor.getData() > IR_TRIGGER_VALUE;
 	}
 }
 
@@ -142,6 +143,10 @@ int main()
 
 	Network monitor(PORT, &BBG_network_cb);
 	monitor.wait();
+
+	soundSensor.join();
+
+	irSensor.join();
 
 	return 0;
 }
