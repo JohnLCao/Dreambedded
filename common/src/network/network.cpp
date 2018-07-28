@@ -3,19 +3,31 @@
 
 #include <thread>
 #include <iostream>
-#include <iostream>
 
 using namespace std;
 
-Network::Network(void *(*callback)(UdpServer *server)) {
+Network::Network(int port, bool (*callback)(Network *network)) {
   runnerCallback = callback;
   setRunnerEnabled(true);
-  server = new UdpServer(22222);
+
+  server = new UdpServer(port);
   runner = thread(&Network::start, this);
 }
 
 void Network::wait() {
   runner.join();
+}
+
+void* Network::getContext() {
+  return context;
+}
+
+UdpServer* Network::getServer() {
+  return server;
+}
+
+void Network::setContext(void *ctx) {
+  context = ctx;
 }
 
 void Network::setRunnerEnabled(bool val) {
@@ -33,6 +45,8 @@ Network::~Network() {
 
 void Network::start() {
   while(isServing()) {
-    runnerCallback(server);
+    if(!runnerCallback(this)) {
+      setRunnerEnabled(false);
+    }
   }
 }

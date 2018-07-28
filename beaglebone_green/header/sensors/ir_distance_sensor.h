@@ -15,14 +15,15 @@
 
 class IRDistanceSensor : public Sensor {
 public:
-	IRDistanceSensor();
-	~IRDistanceSensor();
 	void serveData();
+	IRDistanceSensor();
+	IRDistanceSensor(int AINNumber);
+	int getData();
 private:
+	int irAIN;
 	int data;
 	ADC irADC;
 	UdpServer* irServer;
-	int getData();
 	void handleRequest(string req);
 	string reportStatus();
 };

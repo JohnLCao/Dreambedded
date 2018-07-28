@@ -11,6 +11,7 @@ class UdpServer {
     UdpServer(int port);
 
     UdpServer();
+
     ~UdpServer();
 
     int getPort() const;

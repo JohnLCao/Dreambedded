@@ -2,6 +2,8 @@ const app = angular.module('dreambedded')
 
 import devicesRootTemplate from './devices/root.hamlc'
 import devicesShowTemplate from './devices/show.hamlc'
+import devicesNewTemplate from './devices/new.hamlc'
+import devicesIndexTemplate from './devices/index.hamlc'
 
 app.config([
   '$locationProvider',
@@ -18,6 +20,7 @@ app.config([
     .state('devices', {
       abstract: true,
       controller: 'DevicesCtrl',
+      controllerAs: 'devCtrl',
       template: devicesRootTemplate()
     })
     .state('index', {
@@ -29,12 +32,36 @@ app.config([
         }
       ]
     })
+    .state('devices.new', {
+      url: '/devices/new',
+      views: {
+        '':{
+          template: devicesNewTemplate()
+        }
+      }
+    })
+    .state('devices.index', {
+      url: '/devices',
+      views: {
+        '':{
+          template: devicesIndexTemplate(),
+          controller: [
+            '$scope',
+            'DeviceStore',
+            ($scope, DeviceStore) => {
+              $scope.devices = DeviceStore.getDevices()
+            }
+          ]
+        }
+      }
+    })
     .state('devices.show', {
       url: '/devices/:device_name',
       views: {
         '': {
           controller: 'DevicesShowCtrl',
-          template: devicesShowTemplate()
+          template: devicesShowTemplate(),
+          controllerAs: 'devShowCtrl'
         }
       }
     })
