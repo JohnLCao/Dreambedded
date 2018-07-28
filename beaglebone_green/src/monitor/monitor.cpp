@@ -21,7 +21,7 @@
 
 #define POLL_PERIOD 100000
 #define TIME_INTERVAL_ms 500
-#define SOUND_TRIGGER_VALUE 1200
+#define SOUND_TRIGGER_VALUE 1500
 #define IR_TRIGGER_VALUE 1000
 #define NUM_SAMPLES 10
 #define NUM_SLAPS 2
@@ -142,6 +142,10 @@ int main()
 
 	Network monitor(PORT, &BBG_network_cb);
 	monitor.wait();
+
+	soundSensor.join();
+
+	irSensor.join();
 
 	return 0;
 }
