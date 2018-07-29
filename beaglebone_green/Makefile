@@ -35,10 +35,12 @@ COMMON_PREFIX = $(CCPREFIX)$(CC) $(INC) $(CFLAGS)$(LIB) -c $(COMMON)/$(SRC)/
 #COMMON_SUFFIX = /$@.$(SRCTYPE) -o $(BUILD)/$@ ###may change later
 BUILD_SUPPORT = $(COMMON_PREFIX)$@.$(SRCTYPE) -o $(BUILD)/$@
 
+OUTPUT = dreambed
+
 all: support sensor monitor
 	#echo $(BBC) > $(SLOTS)
-	$(CCPREFIX)$(CC) -o dreambed $(SENSORS) $(SUPPORT) $(MONITOR) $(LIB) #libstdc++.so.6
-	cp dreambed $(PUBDIR)
+	$(CCPREFIX)$(CC) -o $(OUTPUT) $(SENSORS) $(SUPPORT) $(MONITOR) $(LIB) #libstdc++.so.6 -static-libstdc++
+	cp $(OUTPUT) $(PUBDIR)
 
 #-------
 #MONITOR
@@ -84,3 +86,4 @@ network:
 ######################################
 clean: #remove executables
 	rm -r $(BUILD)
+	rm $(OUTPUT)

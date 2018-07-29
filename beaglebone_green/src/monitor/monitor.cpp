@@ -18,18 +18,24 @@
 #include "sensors/ir_distance_sensor.h"
 #include "support/gpio.h"
 
-#define POLL_PERIOD 100000
-#define TIME_INTERVAL_ms 700
-#define SOUND_TRIGGER_VALUE 1200
-#define IR_TRIGGER_VALUE 1600
-#define NUM_SLAPS 2
-#define SOUND_SENSOR_AIN 4
-#define IR_SENSOR_AIN	 1
-#define STOP 			"stop"
-#define STATUS 			"status"
-#define PORT			22222
-#define RPI_IP 			"142.58.82.120"
-#define BBG_IP			""
+#define POLL_PERIOD 			100000
+#define TIME_INTERVAL_ms 		700
+#define SOUND_TRIGGER_VALUE 	1200
+#define IR_TRIGGER_VALUE 		1600
+#define IR_SLEEP_MICROSECONDS 	10000
+#define NUM_SAMPLES 			10
+#define NUM_SLAPS 				2
+#define SOUND_SENSOR_AIN 		4
+#define IR_SENSOR_AIN	 		1
+#define STOP 					"stop"
+#define STATUS 					"status"
+#define ACTIVE					"active"
+#define IDLE					"idle"
+#define PORT					2
+#define IR_ON_MSG  				"ir:on"
+#define IR_OFF_MSG				"ir:off"
+#define SOUND_ON_MSG			"sound:on"
+#define SOUND_OFF_MSG			"sound:off"
 
 typedef std::chrono::high_resolution_clock Time;
 typedef std::chrono::milliseconds ms;
@@ -43,9 +49,10 @@ using namespace std;
 // status for sensors
 bool soundRelayActivation = false;
 bool irRelayActivation = false;
-string soundState = "sound:off";
+string soundState = IR_ON_MSG;
 
 // function for soundSensor thread
+// This function counts the number
 void driveByClappingWithSoundSensor() {
 	auto begin = Time::now();
 	int slapCount = 0;
@@ -79,13 +86,14 @@ void driveByClappingWithSoundSensor() {
     }
 }
 
-void driveByThreasholdWithIRSensor()
+void driveByThresholdWithIRSensor()
 {
 	IRDistanceSensor irSensor = IRDistanceSensor();
 	while (1) {
 		irRelayActivation = irSensor.getData() > IR_TRIGGER_VALUE;
 	}
 }
+
 
 bool BBG_network_cb(Network* net)
 {
@@ -94,21 +102,21 @@ bool BBG_network_cb(Network* net)
 
 	if (soundRelayActivation){
 		soundRelayActivation = false;
-		soundState = (soundState == "sound:on") ? "sound:off" : "sound:on";
-		std::cout << "soundState:" << soundState << '\n';
+		soundState = (soundState == SOUND_ON_MSG) ? SOUND_OFF_MSG : SOUND_ON_MSG;
+		// std::cout << "soundState:" << soundState << '\n';
 		// if (soundState == "sound:on") LED.writeValue(1);
 		// if (soundState == "sound:off") LED.writeValue(0);
 		udp->send(soundState);
 	}
 
 	if (irRelayActivation){
-		udp->send("ir:on");
-		std::cout << "ir:on" << '\n';
+		udp->send(IR_ON_MSG);
+		// std::cout << "ir:on" << '\n';
 		while (irRelayActivation) {
 			/* wait */
 		}
-		udp->send("ir:off");
-		std::cout << "ir:off" << '\n';
+		udp->send(IR_OFF_MSG);
+		// std::cout << "ir:off" << '\n';
 	}
 
 	return true;
@@ -122,7 +130,7 @@ int main()
 	// thread soundSensor (driveByClappingWithSoundSensor);
 
 	// start IR sensor thread
-	thread irSensor (driveByThreasholdWithIRSensor);
+	thread irSensor (driveByThresholdWithIRSensor);
 
 	Network monitor(PORT, RPI_IP, &BBG_network_cb);
 	monitor.wait();

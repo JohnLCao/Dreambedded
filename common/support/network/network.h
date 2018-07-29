@@ -27,31 +27,20 @@ class Network {
     Network(int port, string h, bool (*callback)(Network *network));
 
     ~Network();
-
     void wait();
-
     void setContext(void *ctx);
-
     void* getContext();
-
     UdpServer* getServer();
 
   private:
     string host;
 
     void *context;
-
     thread runner;
-
     UdpServer *server;
-
     void start();
-
     bool (*runnerCallback)(Network *network);
-
     bool isServing();
-
     void setRunnerEnabled(bool val);
-
     bool isRunnerEnabled;
 };
