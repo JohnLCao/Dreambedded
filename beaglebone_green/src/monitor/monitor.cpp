@@ -18,19 +18,20 @@
 #include "sensors/ir_distance_sensor.h"
 #include "support/gpio.h"
 
-#define POLL_PERIOD 		100000
-#define TIME_INTERVAL_ms 	500
-#define SOUND_TRIGGER_VALUE 1200
-#define IR_TRIGGER_VALUE 	1000
-#define NUM_SAMPLES 		10
-#define NUM_SLAPS 			2
-#define SOUND_SENSOR_AIN 	4
-#define IR_SENSOR_AIN	 	1
-#define STOP 				"stop"
-#define STATUS 				"status"
-#define ACTIVE				"active"
-#define IDLE				"idle"
-#define PORT				12345
+#define POLL_PERIOD 			100000
+#define TIME_INTERVAL_ms 		500
+#define SOUND_TRIGGER_VALUE 	1200
+#define IR_TRIGGER_VALUE 		1000
+#define IR_SLEEP_MICROSECONDS 	10000
+#define NUM_SAMPLES 			10
+#define NUM_SLAPS 				2
+#define SOUND_SENSOR_AIN 		4
+#define IR_SENSOR_AIN	 		1
+#define STOP 					"stop"
+#define STATUS 					"status"
+#define ACTIVE					"active"
+#define IDLE					"idle"
+#define PORT					12345
 
 typedef std::chrono::high_resolution_clock Time;
 typedef std::chrono::milliseconds ms;
@@ -46,6 +47,7 @@ bool soundRelayActivation = false;
 bool irRelayActivation = false;
 
 // function for soundSensor thread
+// This function counts the number
 void driveByClappingWithSoundSensor() {
 	auto begin = Time::now();
 	int soundReadValue = 0;
@@ -94,7 +96,7 @@ void driveByClappingWithSoundSensor() {
     }
 }
 
-void driveByThreasholdWithIRSensor()
+void driveByThresholdWithIRSensor()
 {
 	int irReadValue = 0;
 	int triggerTimes = 0;
@@ -106,7 +108,7 @@ void driveByThreasholdWithIRSensor()
 			irReadValue = irSensor.getData();
 			if (irReadValue > IR_TRIGGER_VALUE){
 				triggerTimes++;
-				usleep(10000);
+				usleep(IR_SLEEP_MICROSECONDS);
 			} else {
 				break;
 			}
@@ -137,10 +139,14 @@ int main()
 	// start soundSensor thread
 	thread soundSensor(driveByClappingWithSoundSensor);
 	// start IR sensor thread
-	thread irSensor (driveByThreasholdWithIRSensor);
+	thread irSensor (driveByThresholdWithIRSensor);
 
 	Network monitor(PORT, &BBG_network_cb);
 	monitor.wait();
+
+	// Join threads
+	soundSensor.join();
+	irSensor.join();
 
 	return 0;
 }
