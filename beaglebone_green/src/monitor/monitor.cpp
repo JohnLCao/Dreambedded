@@ -19,10 +19,9 @@
 #include "support/gpio.h"
 
 #define POLL_PERIOD 100000
-#define TIME_INTERVAL_ms 500
-#define SOUND_TRIGGER_VALUE 1500
+#define TIME_INTERVAL_ms 700
+#define SOUND_TRIGGER_VALUE 1200
 #define IR_TRIGGER_VALUE 1600
-#define NUM_SAMPLES 10
 #define NUM_SLAPS 2
 #define SOUND_SENSOR_AIN 4
 #define IR_SENSOR_AIN	 1
@@ -49,46 +48,31 @@ string soundState = "sound:off";
 // function for soundSensor thread
 void driveByClappingWithSoundSensor() {
 	auto begin = Time::now();
-	int soundReadValue = 0;
 	int slapCount = 0;
-	int reachTriggerValue = 0;
-	int normalReadingValue = 0;
 
 	SoundSensor soundSensor = SoundSensor();
+	int soundReadValue = 0;
 
-	while (1) {
-		slapCount = 0;
-        while (slapCount <= NUM_SLAPS) {
-            reachTriggerValue = 0;
-			normalReadingValue = 0;
-            for (int i = 0; i < NUM_SAMPLES; i++) {
-                soundReadValue = soundSensor.getData();
-				normalReadingValue += soundReadValue;
-                if (soundReadValue > SOUND_TRIGGER_VALUE) {
-					// std::cout << "soundReadValue: " << soundReadValue << '\n';
-                    reachTriggerValue = 1;
-                }
-            }
-
-			while (reachTriggerValue && soundSensor.getData() > (normalReadingValue / NUM_SAMPLES)) {
-				// keeping reading
+    while (slapCount <= NUM_SLAPS) {
+		soundReadValue = soundSensor.getData();
+        if (soundReadValue > SOUND_TRIGGER_VALUE) {
+            slapCount++;
+            if (slapCount == 1) {
+				begin = Time::now();
+				usleep(POLL_PERIOD);
 			}
-
-            if (reachTriggerValue) {
-                slapCount++;
-                if (slapCount == 1) begin = Time::now();
-                if (slapCount == 2) {
-                    auto end = Time::now();
-                    fsec fs = end - begin;
-                    ms elapse = std::chrono::duration_cast<ms>(fs);
-                    if (elapse.count() < TIME_INTERVAL_ms ) {
-						soundRelayActivation = !soundRelayActivation;
-                        break;
-                    } else {
-                        // reset slapCount to 1
-                        slapCount = 1;
-                        begin = end;
-                    }
+            if (slapCount == 2) {
+                auto end = Time::now();
+                fsec fs = end - begin;
+                ms elapse = std::chrono::duration_cast<ms>(fs);
+                if (elapse.count() < TIME_INTERVAL_ms ) {
+					soundRelayActivation = !soundRelayActivation;
+					slapCount = 0;
+					sleep(1);
+                } else {
+                    slapCount = 1;
+					usleep(POLL_PERIOD);
+                    begin = end;
                 }
             }
         }
@@ -97,23 +81,8 @@ void driveByClappingWithSoundSensor() {
 
 void driveByThreasholdWithIRSensor()
 {
-	// int irReadValue = 0;
-	// int triggerTimes = 0;
-
 	IRDistanceSensor irSensor = IRDistanceSensor();
 	while (1) {
-		// for (int i = 0; i < NUM_SAMPLES; i++){
-		// 	triggerTimes = 0;
-		// 	irReadValue = irSensor.getData();
-		// 	if (irReadValue > IR_TRIGGER_VALUE){
-		// 		triggerTimes++;
-		// 		usleep(10000);
-		// 	} else {
-		// 		break;
-		// 	}
-		// }
-		//IR sensor will turn light off if no one is in the room
-		//irRelayActivation = (triggerTimes == NUM_SAMPLES);
 		irRelayActivation = irSensor.getData() > IR_TRIGGER_VALUE;
 	}
 }
@@ -122,10 +91,10 @@ bool BBG_network_cb(Network* net)
 {
 	UdpServer* udp = net->getServer();
 
-  	//if (reply.find(STATUS) == 0){
 	if (soundRelayActivation){
 		soundRelayActivation = false;
 		soundState = (soundState == "sound:on") ? "sound:off" : "sound:on";
+		std::cout << "soundState:" << soundState << '\n';
 		udp->send(soundState);
 	}
 
@@ -138,11 +107,6 @@ bool BBG_network_cb(Network* net)
 	}
 
 	return true;
-  	//}
-	/*
-  	//exit if received stop command
-  	return reply.find(STOP) != 0;
-	*/
 }
 
 int main()
@@ -151,6 +115,7 @@ int main()
 
 	// start soundSensor thread
 	thread soundSensor (driveByClappingWithSoundSensor);
+
 	// start IR sensor thread
 	thread irSensor (driveByThreasholdWithIRSensor);
 
