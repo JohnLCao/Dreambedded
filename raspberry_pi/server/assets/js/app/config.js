@@ -6,7 +6,8 @@ app.run([
     Socket.init(io());
 
     setInterval(() => {
-      Socket.getSocket().emit("heartbeat", (new Date()).toString())
+      let payload = [(new Date()).toString(), "none", "status"]
+      Socket.getSocket().emit("heartbeat", payload.join("::"))
     }, 1500)
   }
 ])

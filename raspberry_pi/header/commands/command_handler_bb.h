@@ -3,6 +3,7 @@
 #include "command_handler.h"
 #include <string>
 #include <chrono>
+#include "support/network/network.h"
 
 class CommandHandlerBb: public CommandHandler {
   public:
@@ -10,7 +11,7 @@ class CommandHandlerBb: public CommandHandler {
 
     ~CommandHandlerBb();
 
-    void handle(string msg);
+    void handle(string msg, Network *net);
 
     bool debounce();
 

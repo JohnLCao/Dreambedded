@@ -15,10 +15,15 @@ app.get('/*', (req, resp) => {
 
 io.on('connection', (client) => {
   client.on('heartbeat', (message) => {
-    Bridge.send("heartBeat", message)
+    Bridge.send("heartbeat", message)
   })
 
   client.on('action', Handlers.__logger(Handlers.action))
+
+
+  Bridge.onAck(function(type, msg) {
+    client.emit(type, msg)
+  })
 })
 
 server.listen(PORT, () =>

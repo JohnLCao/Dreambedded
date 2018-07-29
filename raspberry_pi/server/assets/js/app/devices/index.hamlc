@@ -1,12 +1,1 @@
-.mdl-card.mdl-shadow--2dp(ng-repeat="device in devices" material-upgrade="true")
-  .mdl-card__title
-    %h2.mdl-card__title-text {{::device.name}}
-
-  .mdl-card__supporting-text
-    %label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect(for="{{device.id}}")
-      %span.mdl-switch__label ON/OFF
-      %input(type="checkbox"
-             id="{{device.id}}"
-             class="mdl-switch__input"
-             ng-model="deviceMode"
-             ng-change="devCtrl.onModeChange(device, deviceMode)")
+%div(device="device" ng-repeat="device in devices")

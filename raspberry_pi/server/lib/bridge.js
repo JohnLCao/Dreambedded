@@ -6,9 +6,9 @@ const HOST = '127.0.0.1'
 const Bridge = {
   onAck(callback) {
     client.on('message', (msg, rinfo) => {
-      const args = msg.toString("utf8").split(":")
+      const args = msg.toString("utf8").split("::")
       const type = args[0]
-      const payload = args.slice(1).join(":")
+      const payload = args.slice(1).join("::")
 
       callback(type, payload)
     })

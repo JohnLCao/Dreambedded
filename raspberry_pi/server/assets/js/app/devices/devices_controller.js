@@ -14,12 +14,6 @@ app.controller('DevicesCtrl', [
       }
     }
 
-    controller.onModeChange = (device, modeOn) => {
-      let msg = modeOn ? "device_on" : "device_off"
-      let payload = ["device", "::", device.pin, "::", msg].join("")
-      Socket.getSocket().emit("action", payload)
-    }
-
     return controller
   }
 ])

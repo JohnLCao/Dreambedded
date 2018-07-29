@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include "support/network/network.h"
 
 static string messageDelimeter = "::";
 
@@ -13,7 +14,7 @@ CommandHandler::~CommandHandler() {
 
 }
 
-void CommandHandler::handle(string msg) {
+void CommandHandler::handle(string msg, Network *net) {
   cout << msg << endl;
 }
 

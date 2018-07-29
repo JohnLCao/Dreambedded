@@ -1,5 +1,9 @@
 #pragma once
 
+#include <string>
+
+using namespace std;
+
 class Relay {
   public:
     Relay(int p);
@@ -9,6 +13,8 @@ class Relay {
     void setOn();
 
     void setOff();
+
+    string getStatus();
 
   private:
     int pin;

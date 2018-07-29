@@ -2,6 +2,7 @@
 
 #include <string>
 #include <map>
+#include "support/network/network.h"
 
 using namespace std;
 
@@ -11,7 +12,7 @@ class CommandHandler {
 
     ~CommandHandler();
 
-    virtual void handle(string msg);
+    virtual void handle(string msg, Network *net);
 
     virtual bool debounce();
 

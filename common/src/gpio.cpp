@@ -16,7 +16,6 @@ GPIO::~GPIO(){}
 
 int GPIO::readValue() {
     // Set direction to "in"
-    writeToFile(this->directionPath.c_str(), "in");
     return readFromFile(this->valuePath);
 }
 

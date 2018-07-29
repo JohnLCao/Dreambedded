@@ -5,11 +5,12 @@
 #include <chrono>
 #include "commands/command_handler_bb.h"
 #include "actuators/relay.h"
+#include "support/network/network.h"
 
 #define DEFAULT_PIN 4
-#define HANDLER_NAME_IDX 2
+#define HANDLER_NAME_IDX 1
 #define MAX_TOKENS 2
-#define DEBOUNCE_BB_REPLY_IN_MS 1000
+#define DEBOUNCE_BB_REPLY_IN_MS 700
 
 CommandHandlerBb::CommandHandlerBb() {
   handlers["on"] = &CommandHandlerBb::on;
@@ -21,11 +22,13 @@ CommandHandlerBb::~CommandHandlerBb() {
 
 }
 
-void CommandHandlerBb::handle(string msg) {
+void CommandHandlerBb::handle(string msg, Network *net) {
   string tokens[MAX_TOKENS];
   tokenize(msg, tokens);
-  if (handlers[tokens[HANDLER_NAME_IDX]]) {
-    invoke(handlers[tokens[HANDLER_NAME_IDX]], this, tokens);
+  string key = tokens[HANDLER_NAME_IDX];
+
+  if (handlers[key]) {
+    invoke(handlers[key], this, tokens);
     lastReplyTime = chrono::high_resolution_clock::now();
   }
 }
@@ -33,7 +36,7 @@ void CommandHandlerBb::handle(string msg) {
 void CommandHandlerBb::on(string args[]) {
   cout << "SENSOR: " << args[0] << " CMD: ON" << endl;
   Relay relay(DEFAULT_PIN);
-  relay.setOff();
+  relay.setOn();
 }
 
 void CommandHandlerBb::off(string args[]) {
