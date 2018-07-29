@@ -119,7 +119,7 @@ int main()
 	cout << "MAIN <------" << endl;
 
 	// start soundSensor thread
-	thread soundSensor (driveByClappingWithSoundSensor);
+	// thread soundSensor (driveByClappingWithSoundSensor);
 
 	// start IR sensor thread
 	thread irSensor (driveByThreasholdWithIRSensor);
@@ -127,7 +127,7 @@ int main()
 	Network monitor(PORT, RPI_IP, &BBG_network_cb);
 	monitor.wait();
 
-	soundSensor.join();
+	// soundSensor.join();
 
 	irSensor.join();
 
