@@ -35,7 +35,7 @@ COMMON_PREFIX = $(CCPREFIX)$(CC) $(INC) $(CFLAGS)$(LIB) -c $(COMMON)/$(SRC)/
 #COMMON_SUFFIX = /$@.$(SRCTYPE) -o $(BUILD)/$@ ###may change later
 BUILD_SUPPORT = $(COMMON_PREFIX)$@.$(SRCTYPE) -o $(BUILD)/$@
 
-all: support sensor actuator monitor
+all: support sensor monitor
 	#echo $(BBC) > $(SLOTS)
 	$(CCPREFIX)$(CC) -o dreambed $(SENSORS) $(SUPPORT) $(MONITOR) $(LIB) #libstdc++.so.6
 	cp dreambed $(PUBDIR)
@@ -59,10 +59,6 @@ ir_distance_sensor:
 sound_sensor:
 	$(MAKE_BUILD_FOLDER)
 	$(BUILD_SENSOR)
-#---------
-#ACTUATORS
-#---------
-actuator:
 
 #-------
 #SUPPORT

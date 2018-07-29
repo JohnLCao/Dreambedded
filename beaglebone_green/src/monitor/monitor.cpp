@@ -28,8 +28,6 @@
 #define IR_SENSOR_AIN	 1
 #define STOP 			"stop"
 #define STATUS 			"status"
-#define ACTIVE			"active"
-#define IDLE			"idle"
 #define PORT			22222
 #define RPI_IP 			"142.58.82.120"
 #define BBG_IP			""
@@ -46,6 +44,7 @@ using namespace std;
 // status for sensors
 bool soundRelayActivation = false;
 bool irRelayActivation = false;
+string soundState = "sound:off";
 
 // function for soundSensor thread
 void driveByClappingWithSoundSensor() {
@@ -124,8 +123,20 @@ bool BBG_network_cb(Network* net)
 	UdpServer* udp = net->getServer();
 
   	//if (reply.find(STATUS) == 0){
-	string res = (soundRelayActivation || irRelayActivation) ? ACTIVE : IDLE;
-	udp->send(res);
+	if (soundRelayActivation){
+		soundRelayActivation = false;
+		soundState = (soundState == "sound:on") ? "sound:off" : "sound:on";
+		udp->send(soundState);
+	}
+
+	if (irRelayActivation){
+		udp->send("ir:on");
+		while (irRelayActivation) {
+			/* wait */
+		}
+		udp->send("ir:off");
+	}
+
 	return true;
   	//}
 	/*
