@@ -89,21 +89,26 @@ void driveByThreasholdWithIRSensor()
 
 bool BBG_network_cb(Network* net)
 {
+	// GPIO LED = GPIO(49);
 	UdpServer* udp = net->getServer();
 
 	if (soundRelayActivation){
 		soundRelayActivation = false;
 		soundState = (soundState == "sound:on") ? "sound:off" : "sound:on";
 		std::cout << "soundState:" << soundState << '\n';
+		// if (soundState == "sound:on") LED.writeValue(1);
+		// if (soundState == "sound:off") LED.writeValue(0);
 		udp->send(soundState);
 	}
 
 	if (irRelayActivation){
 		udp->send("ir:on");
+		std::cout << "ir:on" << '\n';
 		while (irRelayActivation) {
 			/* wait */
 		}
 		udp->send("ir:off");
+		std::cout << "ir:off" << '\n';
 	}
 
 	return true;
