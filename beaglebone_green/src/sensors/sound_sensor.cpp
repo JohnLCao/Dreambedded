@@ -21,10 +21,6 @@ SoundSensor::SoundSensor()
 	soundADC = ADC(soundAIN);
 }
 
-SoundSensor::~SoundSensor() {
-
-}
-
 SoundSensor::SoundSensor(int AINNumber)
 {
 	soundAIN = AINNumber;
