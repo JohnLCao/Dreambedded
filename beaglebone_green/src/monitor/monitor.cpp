@@ -37,6 +37,8 @@
 #define SOUND_ON_MSG			"sound:on"
 #define SOUND_OFF_MSG			"sound:off"
 
+#define RPI_IP 					"142.58.82.120"
+
 typedef std::chrono::high_resolution_clock Time;
 typedef std::chrono::milliseconds ms;
 typedef std::chrono::duration<float> fsec;

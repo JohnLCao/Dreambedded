@@ -9,18 +9,17 @@
 #include <string>
 #include <sstream>
 #include <unistd.h>
-
 #include <iostream>
 
 #define IR_AIN 		1
-
-#define THREASHOLD	1000 //to be changed
+#define THRESHOLD	1000 //to be changed
 #define TRIES		10
 
 using namespace std;
 
-IRDistanceSensor::IRDistanceSensor(int AINNumber)
+IRDistanceSensor::IRDistanceSensor()
 {
+	irAIN = IR_AIN;
 	irADC = ADC(IR_AIN);
 	data = irADC.readValue();
 }
@@ -44,7 +43,7 @@ string IRDistanceSensor::reportStatus()
 	int activeReads = 0;
 
 	for (int i = 0; i < TRIES; i++){
-		if (getData() > THREASHOLD)
+		if (getData() > THRESHOLD)
 			activeReads++;
 		usleep(10);
 	}
