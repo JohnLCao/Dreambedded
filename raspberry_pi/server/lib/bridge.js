@@ -1,6 +1,6 @@
 const dgram = require('dgram')
 const client = dgram.createSocket('udp4')
-const PORT = 22222
+const PORT = 22221
 const HOST = '127.0.0.1'
 
 const Bridge = {

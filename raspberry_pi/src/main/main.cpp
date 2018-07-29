@@ -6,19 +6,19 @@
 
 using namespace std;
 
-#define UI_MONITOR_PORT 22222
-#define BB_MONITOR_PORT 22111
+#define UI_MONITOR_PORT 22221
+#define BB_MONITOR_PORT 22222
 
 int main(int argc, char const *argv[]) {
   CommandHandlerUi handlerUi;
-  Monitor uiMonitor(UI_MONITOR_PORT);
+  Monitor uiMonitor(UI_MONITOR_PORT, "0.0.0.0");
   uiMonitor.setCmdHandler(&handlerUi);
 
-  // CommandHandlerBb handlerBb;
-  // Monitor bbMonitor(BB_MONITOR_PORT);
-  // bbMonitor.setCmdHandler(handlerBb);
+  CommandHandlerBb handlerBb;
+  Monitor bbMonitor(BB_MONITOR_PORT, "0.0.0.0");
+  bbMonitor.setCmdHandler(&handlerBb);
 
   uiMonitor.listen();
-  // bbMonitor.listen();
+  bbMonitor.listen();
   return 0;
 }

@@ -37,10 +37,10 @@ BUILD_SUPPORT = $(COMMON_PREFIX)$@.$(SRCTYPE) -o $(BUILD)/$@
 
 OUTPUT = dreambed
 
-all: support sensor actuator monitor
+all: support sensor monitor
 	#echo $(BBC) > $(SLOTS)
 	$(CCPREFIX)$(CC) -o $(OUTPUT) $(SENSORS) $(SUPPORT) $(MONITOR) $(LIB) #libstdc++.so.6 -static-libstdc++
-	cp dreambed $(PUBDIR)
+	cp $(OUTPUT) $(PUBDIR)
 
 #-------
 #MONITOR
@@ -61,10 +61,6 @@ ir_distance_sensor:
 sound_sensor:
 	$(MAKE_BUILD_FOLDER)
 	$(BUILD_SENSOR)
-#---------
-#ACTUATORS
-#---------
-actuator:
 
 #-------
 #SUPPORT

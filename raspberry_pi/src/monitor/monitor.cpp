@@ -10,14 +10,20 @@ bool Monitor::networkCallback(Network *net) {
   int bytesRead;
   string reply = net->getServer()->receive(&bytesRead);
 
+  cout << "REPLY: " << reply << endl;
   Monitor *ctx = (Monitor *)(net->getContext());
-  ctx->cmdHandler->handle(reply);
+
+  if (!ctx->cmdHandler->debounce()) {
+    ctx->cmdHandler->handle(reply);
+  } else {
+    cout << "Monitor: debounce" << endl;
+  }
 
   return true;
 }
 
-Monitor::Monitor(int port) {
-  network = new Network(port, &Monitor::networkCallback);
+Monitor::Monitor(int port, string host) {
+  network = new Network(port, host, &Monitor::networkCallback);
   network->setContext((void *)this);
 }
 

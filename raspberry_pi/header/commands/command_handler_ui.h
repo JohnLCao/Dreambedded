@@ -2,9 +2,6 @@
 
 #include "command_handler.h"
 #include <string>
-#include <map>
-
-// typedef void (CommandHandlerUi::*)(string args[]);
 
 class CommandHandlerUi: public CommandHandler {
   public:
@@ -13,6 +10,8 @@ class CommandHandlerUi: public CommandHandler {
     ~CommandHandlerUi();
 
     void handle(string msg);
+
+    bool debounce();
 
     // HANDLERS
     void device_off(string args[]);

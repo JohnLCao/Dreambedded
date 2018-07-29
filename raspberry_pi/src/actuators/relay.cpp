@@ -1,8 +1,8 @@
 #include "actuators/relay.h"
 #include "support/gpio.h"
 
-#define ON_VALUE 1
-#define OFF_VALUE 0
+#define ON_VALUE 0
+#define OFF_VALUE 1
 
 Relay::Relay(int p) {
   pin = p;
