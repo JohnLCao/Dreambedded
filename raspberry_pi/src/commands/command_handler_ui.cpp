@@ -38,7 +38,6 @@ void CommandHandlerUi::device_status(string args[], Network *net) {
 
 void CommandHandlerUi::status(string args[], Network *net) {
   cout << "UI ---> CMD: status" << endl;
-  // net->getServer()->send()
 }
 
 void CommandHandlerUi::device_off(string args[], Network *net) {
