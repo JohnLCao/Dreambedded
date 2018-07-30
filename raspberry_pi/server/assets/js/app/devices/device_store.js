@@ -25,14 +25,6 @@ app.service('DeviceStore', [
       return id
     }
 
-    api.update = () => {
-
-    }
-
-    api.delete = () => {
-
-    }
-
     api.getDevices = () => {
       let items = _store.getItem(_storeKey) || "{}"
       items = JSON.parse(items)

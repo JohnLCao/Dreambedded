@@ -1,1 +1,1 @@
-%div(device="device" ng-repeat="device in devices")
+%div(device="device" ng-repeat="device in devices" id="device_{{device.pin}}")
