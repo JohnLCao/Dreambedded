@@ -10,7 +10,22 @@ app.directive('navbar', [
       link: (scope, element, attr) => {
         scope.devices = DeviceStore.getDevices()
       },
-      template: template()
+      controller: [
+        '$scope',
+        '$state',
+        ($scope, $state) => {
+          let controller = {}
+
+          controller.clearDevices = () => {
+            window.localStorage.clear()
+            $state.go('devices.index')
+          }
+
+          return controller
+        }
+      ],
+      template: template(),
+      controllerAs: 'devCtrl'
     }
   }
 ])

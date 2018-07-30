@@ -5,6 +5,7 @@
       .mdl-layout-spacer
       %nav.mdl-navigation.mdl-layout--large-screen-only
         %a.mdl-navigation__link(href="javascript:void(0)" ui-sref="devices.new()") Register Device
+        %a.mdl-navigation__link(href="javascript:void(0)" ng-click="devCtrl.clearDevices()") Clear Devices
   .mdl-layout__drawer
     %span.mdl-layout-title Devices
     %nav.mdl-navigation

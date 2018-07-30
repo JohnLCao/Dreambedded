@@ -10,7 +10,7 @@
 #define DEFAULT_PIN 4
 #define HANDLER_NAME_IDX 1
 #define MAX_TOKENS 2
-#define DEBOUNCE_BB_REPLY_IN_MS 700
+#define DEBOUNCE_BB_REPLY_IN_MS 1000
 
 CommandHandlerBb::CommandHandlerBb() {
   handlers["on"] = &CommandHandlerBb::on;

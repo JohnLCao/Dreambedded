@@ -20,8 +20,26 @@ app.directive('device', [
         'Socket',
         '$element',
         '$scope',
-        (Socket, $element, $scope) => {
+        '$interpolate',
+        (Socket, $element, $scope, $interpolate) => {
           let controller = {}
+
+          let MESSAGES = {
+            on: `Hello Dr. Brian, Power plug at pin ${$scope.device.pin} going on!`,
+            off: `Hello Dr. Brian, Power plug at pin ${$scope.device.pin} going off!`
+          }
+
+          let _speak = (status) => {
+            let msg;
+
+            if (!!$scope.device.message) {
+              msg = $interpolate($scope.device.message)($scope)
+            } else {
+              msg = MESSAGES[status]
+            }
+
+            responsiveVoice.speak(msg)
+          }
 
           let _isOutOfSync = (status) => {
             return $scope.deviceMode && status == "off" ||
@@ -38,7 +56,9 @@ app.directive('device', [
             if (_isOutOfSync(status)) {
               $scope.$apply(() => {
                 angular.element($element).find(".mdl-switch").trigger("click")
+                $scope.device.status = status
                 $scope.deviceMode = status == "on"
+                _speak(status)
               })
             }
           }
