@@ -14,6 +14,10 @@ app.controller('DevicesCtrl', [
       }
     }
 
+    controller.getDevices = () => {
+      return DeviceStore.getDevices()
+    }
+
     return controller
   }
 ])

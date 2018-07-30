@@ -4,10 +4,11 @@ import template from './navbar.hamlc'
 
 app.directive('navbar', [
   'Socket',
-  (Socket) => {
+  'DeviceStore',
+  (Socket, DeviceStore) => {
     return {
       link: (scope, element, attr) => {
-        console.log(scope, element, attr)
+        scope.devices = DeviceStore.getDevices()
       },
       template: template()
     }

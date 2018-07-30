@@ -1,12 +1,1 @@
-.mdl-card.mdl-shadow--2dp
-  .mdl-card__title
-    %h2.mdl-card__title-text {{::device.deviceName}}
-
-  .mdl-card__supporting-text {{::device.deviceDescription}}
-
-  .mdl-card__actions.mdl-card--border
-    %a.mdl-button.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect
-      Get Started
-  .mdl-card__menu
-    %button.mdl-button.mdl-button--icon.mdl-js-button.mdl-js-ripple-effect
-      %i.material-icons share
+%div(device="device" id="device_{{device.pin}}")

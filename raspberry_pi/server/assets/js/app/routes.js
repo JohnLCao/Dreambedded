@@ -28,7 +28,7 @@ app.config([
       controller: [
         '$state',
         ($state) => {
-          $state.go('devices.show', { device_name: "hello" });
+          $state.go('devices.index')
         }
       ]
     })
@@ -56,12 +56,21 @@ app.config([
       }
     })
     .state('devices.show', {
-      url: '/devices/:device_name',
+      url: '/devices/:device_id',
       views: {
         '': {
           controller: 'DevicesShowCtrl',
           template: devicesShowTemplate(),
-          controllerAs: 'devShowCtrl'
+          controllerAs: 'devShowCtrl',
+          resolve: {
+            device: [
+              'DeviceStore',
+              '$stateParams',
+              (DeviceStore, $stateParams) => {
+                return DeviceStore.getDevices().filter((ob) => { return ob.id == $stateParams.device_id })[0]
+              }
+            ]
+          }
         }
       }
     })
