@@ -5,12 +5,12 @@ Project for Embedded Systems using the BeagleBone Green.
 
 * Loosely following this [Code Organization Guide](https://hiltmon.com/blog/2013/07/03/a-simple-c-plus-plus-project-structure/)
 
-* Building for Sensor Wrappers and Monitor
-	Clone this repository. 
-	change directory into beaglebone_green
-	run `make`
-	Caveats: 
-		make sure that IR sensor is wired up to BBG's AIN pin 1
-		make sure that Sound sensor is wired up to BBG's AIN pin 4
-	Go to BBG's /mnt/remote/myApps directory
-	run `./dreambed`
+* Building for Sensor Wrappers and Monitor <br />
+	* Clone this repository. <br />
+	* change directory into beaglebone_green <br />
+	* run `make` <br />
+	* Caveats:  <br />
+		* make sure that IR sensor is wired up to BBG's AIN pin 1 <br />
+		* make sure that Sound sensor is wired up to BBG's AIN pin 4 <br />
+	* Go to BBG's /mnt/remote/myApps directory <br />
+	* run `./dreambed` <br />
