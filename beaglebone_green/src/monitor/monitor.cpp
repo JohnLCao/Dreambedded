@@ -122,22 +122,19 @@ int main()
 {
 	cout << "MAIN <------" << endl;
 
-	if (BUILD_SOUND) {
-		// start soundSensor thread
-		thread soundSensor (driveByClappingWithSoundSensor);
-	}
-	if (BUILD_IR){}
-		// start IR sensor thread
-		thread irSensor (driveByThresholdWithIRSensor);
-	}
-
 	Network monitor(PORT, RPI_IP, &BBG_network_cb);
 	monitor.wait();
 
-	if (BUILD_SOUND)		
+	if (BUILD_SOUND) {
+		// start soundSensor thread
+		thread soundSensor (driveByClappingWithSoundSensor);
 		soundSensor.join();
-	if (BUILD_IR)
+	}
+	if (BUILD_IR){
+		// start IR sensor thread
+		thread irSensor (driveByThresholdWithIRSensor);
 		irSensor.join();
+	}
 
 	return 0;
 }
