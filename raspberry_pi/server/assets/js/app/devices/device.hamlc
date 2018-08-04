@@ -10,14 +10,3 @@
              class="mdl-switch__input"
              ng-model="deviceMode"
              ng-change="devCtrl.onModeChange(device, deviceMode)")
-
-    / %div
-    /   %h5 Add timers for this pin
-    /   .mdl-textfield.mdl-js-textfield(material-upgrade="true")
-    /     %input#roomName.mdl-textfield__input(type="text"
-    /                                          name="timerTimeout"
-    /                                          ng-model="timer.timeout"
-    /                                          pattern="-?[0-9]*(\.[0-9]+)?" )
-    /     %label.mdl-textfield__label(for="timerTimeout") Turn off in ... mins
-    /   %button.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored(ng-click="devCtrl.addTimer(timer)")
-    /     %i.material-icons add
