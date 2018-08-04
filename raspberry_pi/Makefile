@@ -21,6 +21,7 @@ APP = $(BUILD)/command_handler $(BUILD)/command_handler_ui $(BUILD)/command_hand
 
 all: main gpio monitor udp_server relay network command_handler command_handler_ui command_handler_bb deploy_server
 	$(CCPREFIX)$(CC) -o dreambed $(APP) -lpthread
+	mkdir -p $(PUBDIR)
 	cp dreambed $(PUBDIR)
 
 relay:
@@ -60,6 +61,7 @@ main:
 	$(BUILD_PREFIX)main/$(BUILD_SUFFIX)
 
 deploy_server:
+	mkdir -p ~/cmpt433/public/myApps/rpi/
 	rsync -av --progress server ~/cmpt433/public/myApps/rpi/
 
 clean:
